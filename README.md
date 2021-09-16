@@ -1,2 +1,2 @@
-# 299A-Agent-Driven-Conversational-Recommendation-System-through-Semantic-Knowledge-Graph
+# 299A-Conversational-Recommendation-System-through-Semantic-Knowledge-Graph
 Master's thesis - Work in progress

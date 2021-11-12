@@ -1,0 +1,353 @@
+version: "2.0"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - good afternoon
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
+- intent: faq
+  examples: |
+    - how to www.airbnb.com#site content
+    - what to do www.airbnb.com#site content
+    - need help with www.airbnb.com#site content
+    - how to ?logo=1
+    - what to do ?logo=1
+    - need help with ?logo=1
+    - how to home
+    - what to do home
+    - need help with home
+    - how to home
+    - what to do home
+    - need help with home
+    - how to home
+    - what to do home
+    - need help with home
+    - how to extenuating circumstances policy and the coronavirus covid19
+    - what to do extenuating circumstances policy and the coronavirus covid19
+    - need help with extenuating circumstances policy and the coronavirus covid19
+    - how to extenuating circumstances policy
+    - what to do extenuating circumstances policy
+    - need help with extenuating circumstances policy
+    - how to change or reset your password
+    - what to do change or reset your password
+    - need help with change or reset your password
+    - how to creating an account
+    - what to do creating an account
+    - need help with creating an account
+    - how to booking a trip what to do if youre new
+    - what to do booking a trip what to do if youre new
+    - need help with booking a trip what to do if youre new
+    - how to what is airbnb and how does it work
+    - what to do what is airbnb and how does it work
+    - need help with what is airbnb and how does it work
+    - how to find the cancellation policy for your stay
+    - what to do find the cancellation policy for your stay
+    - need help with find the cancellation policy for your stay
+    - how to an introduction to airbnb experiences
+    - what to do an introduction to airbnb experiences
+    - need help with an introduction to airbnb experiences
+    - how to booking and traveling
+    - what to do booking and traveling
+    - need help with booking and traveling
+    - how to hosting stays
+    - what to do hosting stays
+    - need help with hosting stays
+    - how to hosting experiences
+    - what to do hosting experiences
+    - need help with hosting experiences
+    - how to managing company travel
+    - what to do managing company travel
+    - need help with managing company travel
+    - how to getting started
+    - what to do getting started
+    - need help with getting started
+    - how to how airbnb works
+    - what to do how airbnb works
+    - need help with how airbnb works
+    - how to our community policies
+    - what to do our community policies
+    - need help with our community policies
+    - how to partnerships
+    - what to do partnerships
+    - need help with partnerships
+    - how to creating an account
+    - what to do creating an account
+    - need help with creating an account
+    - how to managing your account
+    - what to do managing your account
+    - need help with managing your account
+    - how to id and verification
+    - what to do id and verification
+    - need help with id and verification
+    - how to account security
+    - what to do account security
+    - need help with account security
+    - how to reviews
+    - what to do reviews
+    - need help with reviews
+    - how to safety concerns
+    - what to do safety concerns
+    - need help with safety concerns
+    - how to safety tips and guidelines
+    - what to do safety tips and guidelines
+    - need help with safety tips and guidelines
+    - how to reporting issues
+    - what to do reporting issues
+    - need help with reporting issues
+    - how to government travel restrictions and advisories
+    - what to do government travel restrictions and advisories
+    - need help with government travel restrictions and advisories
+    - how to terms of service
+    - what to do terms of service
+    - need help with terms of service
+    - how to payments terms of service
+    - what to do payments terms of service
+    - need help with payments terms of service
+    - how to privacy policy
+    - what to do privacy policy
+    - need help with privacy policy
+    - how to privacy policy supplements
+    - what to do privacy policy supplements
+    - need help with privacy policy supplements
+    - how to member policies and standards
+    - what to do member policies and standards
+    - need help with member policies and standards
+    - how to search?q=refunds
+    - what to do search?q=refunds
+    - need help with search?q=refunds
+    - how to search?q=reviews
+    - what to do search?q=reviews
+    - need help with search?q=reviews
+    - how to search?q=payments
+    - what to do search?q=payments
+    - need help with search?q=payments
+    - how to search?q=cancellations
+    - what to do search?q=cancellations
+    - need help with search?q=cancellations
+    - how to login?redirect_url=inbox
+    - what to do login?redirect_url=inbox
+    - need help with login?redirect_url=inbox
+    - how to login?redirect_url=resolutions
+    - what to do login?redirect_url=resolutions
+    - need help with login?redirect_url=resolutions
+    - how to contact us
+    - what to do contact us
+    - need help with contact us
+    - how to www.airbnb.comtel:+1 844 234 2500
+    - what to do www.airbnb.comtel:+1 844 234 2500
+    - need help with www.airbnb.comtel:+1 844 234 2500
+    - how to feedback
+    - what to do feedback
+    - need help with feedback
+    - how to home?from=footer
+    - what to do home?from=footer
+    - need help with home?from=footer
+    - how to trust
+    - what to do trust
+    - need help with trust
+    - how to covidsafety
+    - what to do covidsafety
+    - need help with covidsafety
+    - how to accessibility
+    - what to do accessibility
+    - need help with accessibility
+    - how to neighbors
+    - what to do neighbors
+    - need help with neighbors
+    - how to www.airbnb.org?locale=en
+    - what to do www.airbnb.org?locale=en
+    - need help with www.airbnb.org?locale=en
+    - how to refugees
+    - what to do refugees
+    - need help with refugees
+    - how to diversity
+    - what to do diversity
+    - need help with diversity
+    - how to against discrimination
+    - what to do against discrimination
+    - need help with against discrimination
+    - how to homes?from_footer=1
+    - what to do homes?from_footer=1
+    - need help with homes?from_footer=1
+    - how to aircover
+    - what to do aircover
+    - need help with aircover
+    - how to resources
+    - what to do resources
+    - need help with resources
+    - how to community?s=footer
+    - what to do community?s=footer
+    - need help with community?s=footer
+    - how to responsible hosting
+    - what to do responsible hosting
+    - need help with responsible hosting
+    - how to news
+    - what to do news
+    - need help with news
+    - how to 2021 winter
+    - what to do 2021 winter
+    - need help with 2021 winter
+    - how to what makes airbnb airbnb
+    - what to do what makes airbnb airbnb
+    - need help with what makes airbnb airbnb
+    - how to careers
+    - what to do careers
+    - need help with careers
+    - how to investors.airbnb.com
+    - what to do investors.airbnb.com
+    - need help with investors.airbnb.com
+    - how to luxury
+    - what to do luxury
+    - need help with luxury
+    - how to privacy_policy
+    - what to do privacy_policy
+    - need help with privacy_policy
+    - how to terms
+    - what to do terms
+    - need help with terms
+    - how to v2
+    - what to do v2
+    - need help with v2
+    - how to airbnb
+    - what to do airbnb
+    - need help with airbnb
+    - how to airbnb
+    - what to do airbnb
+    - need help with airbnb
+    - how to airbnb
+    - what to do airbnb
+    - need help with airbnb
+    - how to all the ways to host on airbnb
+    - what to do all the ways to host on airbnb
+    - need help with all the ways to host on airbnb
+    - how to creating a listing
+    - what to do creating a listing
+    - need help with creating a listing
+    - how to create a unique airbnb experience
+    - what to do create a unique airbnb experience
+    - need help with create a unique airbnb experience
+    - how to hosting airbnb adventures
+    - what to do hosting airbnb adventures
+    - need help with hosting airbnb adventures
+    - how to update the airbnb app
+    - what to do update the airbnb app
+    - need help with update the airbnb app
+    - how to contact info and feedback
+    - what to do contact info and feedback
+    - need help with contact info and feedback
+    - how to the basics
+    - what to do the basics
+    - need help with the basics
+    - how to safety
+    - what to do safety
+    - need help with safety
+    - how to privacy
+    - what to do privacy
+    - need help with privacy
+    - how to antidiscrimination and accessibility
+    - what to do antidiscrimination and accessibility
+    - need help with antidiscrimination and accessibility
+    - how to account authenticity
+    - what to do account authenticity
+    - need help with account authenticity
+    - how to content and reviews
+    - what to do content and reviews
+    - need help with content and reviews
+    - how to community expectations
+    - what to do community expectations
+    - need help with community expectations
+    - how to partner info
+    - what to do partner info
+    - need help with partner info
+    - how to animal welfare
+    - what to do animal welfare
+    - need help with animal welfare
+    - how to discovering the world of hosting 2
+    - what to do discovering the world of hosting 2
+    - need help with discovering the world of hosting 2

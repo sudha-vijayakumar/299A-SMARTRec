@@ -1,0 +1,56 @@
+version: "2.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - faq
+  - bye
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+
+responses:
+  utter_greet:
+  - text: "Hi! People call me SmartRec! How can I help you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+
+  utter_ask_need_more_help:
+  - text: Do you still need any help?
+
+  utter_bye:
+  - text: bye bye!
+
+actions:
+- actions.ActionGetFAQAnswer
+- utter_greet
+- utter_cheer_up
+- utter_did_that_help
+- utter_happy
+- utter_iamabot
+- utter_goodbye
+- action_get_answer
+- utter_ask_need_more_help
+- utter_bye
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
+

@@ -1,0 +1,74 @@
+version: '2.0'
+config:
+  store_entities_as_slots: true
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- greet:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- affirm:
+    use_entities: true
+- deny:
+    use_entities: true
+- mood_great:
+    use_entities: true
+- mood_unhappy:
+    use_entities: true
+- bot_challenge:
+    use_entities: true
+- faq:
+    use_entities: true
+- listings_req:
+    use_entities: true
+- listings_pic:
+    use_entities: true
+- listings_details:
+    use_entities: true
+- book:
+    use_entities: true
+- cancel:
+    use_entities: true
+- listing_review_details:
+    use_entities: true
+entities: []
+slots: {}
+responses:
+  utter_greet:
+  - text: Hey! How are you?
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'Here is something to cheer you up:'
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa. I can find you a good airbnb listing and answer common questions!
+  utter_listings:
+  - text: Do you want me to look for a listings?
+  - text: Do you need me to look for a listings?
+  - text: Would you like to look for a listings?
+  utter_req:
+  - text: Okay! provide the requirement of the listings you are looking for.
+  utter_booking:
+  - buttons:
+    - payload: /book
+      title: Sure
+    - payload: /cancel
+      title: Cancel
+    text: Do you like to make a booking?
+actions:
+- action_listings_search
+- action_listings_pics
+- action_book
+- action_cancel
+- action_listings_details
+- action_get_FAQ
+- action_listings_reviews
+forms: {}
+e2e_actions: []

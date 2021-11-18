@@ -34,7 +34,7 @@ sentence_transformer_select=True
 pretrained_model='stsb-roberta-large' # Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
 score_threshold = 0.60  # This confidence scores can be adjusted based on your need!!
 # Load ML model
-root = '/Users/sudhavijayakumar/Documents/299/299A-SMARTRec/RASA/data/'
+root = '/Users/sudhavijayakumar/Documents/299/299A-SMARTRec/RASA/data'
 
 model = Doc2Vec.load(root+'embeddings/list_embeddings')
 review_model = Doc2Vec.load(root+'embeddings/review_embeddings')

@@ -101,7 +101,7 @@ nlu:
 
 - intent: listings_details
   examples: |
-    - show me the details of the listing with  
+    - 2818  
 
 - intent: listing_review_details
   examples: |

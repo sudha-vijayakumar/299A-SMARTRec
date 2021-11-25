@@ -11,6 +11,7 @@
 # - https://medium.com/betacom/unsupervised-nlp-task-in-python-with-doc2vec-da1f7727857d
 # - https://medium.com/betacom/building-a-rasa-chatbot-to-perform-listings-search-60cea9829e60
 # - https://homes.cs.washington.edu/~msap/acl2020-commonsense/slides/02%20-%20knowledge%20in%20LMs.pdf
+# - https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
 
 
 from typing import Any, Text, Dict, List
@@ -18,7 +19,7 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 
 import pandas as pd
-from gensim.models.doc2vec import Doc2Vec
+from gensim.models.doc2vec import Doc2Vec,Word2Vec
 from gensim.parsing.preprocessing import preprocess_string
 
 import json
@@ -29,24 +30,29 @@ from rasa_sdk.executor import CollectingDispatcher
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-# sentence embedding selection
+# sentence embedding selection.
 sentence_transformer_select=True
-pretrained_model='stsb-roberta-large' # Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
+pretrained_model='stsb-roberta-large' 
 score_threshold = 0.60  # This confidence scores can be adjusted based on your need!!
-# Load ML model
-root = '/Users/sudhavijayakumar/Documents/299/299A-SMARTRec/RASA/data'
+topK=5
 
-model = Doc2Vec.load(root+'embeddings/list_embeddings')
-review_model = Doc2Vec.load(root+'embeddings/review_embeddings')
+# Load embedded features.
+root = '/Users/sudhavijayakumar/Documents/299/299A-SMARTRec/'
+embeddings = root+'/RASA/data/'
+raw = root+'/Data/raw/'
+list_embedding_model = Doc2Vec.load(embeddings+'embeddings/list_embeddings')
+review_embedding_model = Doc2Vec.load(embeddings+'embeddings/review_embeddings')
+offline_models=root+'RASA/offline_models/'
 
-# Load dataset to get listings titles
-df = pd.read_csv(root+'listings.csv.gz', sep=',', usecols = ['listing_url','picture_url','name','description','neighbourhood','property_type','bedrooms','bathrooms','amenities','price','review_scores_rating']) 
-reviews = pd.read_csv(root+'reviews.csv.gz', sep=',', usecols = ['listing_id','comments']) 
+# Load dataset to get listings and reviews.
+listings = pd.read_csv(raw+'listings.csv.gz', sep=',', usecols = ['listing_url','picture_url','name','description','neighbourhood','property_type','bedrooms','bathrooms','amenities','price','review_scores_rating']) 
+reviews = pd.read_csv(raw+'reviews.csv.gz', sep=',', usecols = ['listing_id','comments']) 
 
-class ActionlistingsDetails(Action):
+## Recommendations based on feature embeddings.
+class ActionlistingsDetails_Embedding(Action):
 
 	def name(self) -> Text:
-		return "action_listings_details"
+		return "action_listings_details_embedding"
 
 	def run(self, dispatcher: CollectingDispatcher,
 			tracker: Tracker,
@@ -55,21 +61,21 @@ class ActionlistingsDetails(Action):
 		userMessage = tracker.latest_message['text']
 		# use model to find the listings
 		new_doc = preprocess_string(userMessage)
-		test_doc_vector = model.infer_vector(new_doc)
-		sims = model.dv.most_similar(positive = [test_doc_vector])		
+		test_doc_vector = list_embedding_model.infer_vector(new_doc)
+		sims = list_embedding_model.dv.most_similar(positive = [test_doc_vector])		
 		
 		# Get first 5 matches
 		for s in sims[:1]:
-			picture = df['picture_url'].iloc[s[0]]
-			listingss = df['listing_url'].iloc[s[0]]
-			name = df['name'].iloc[s[0]]
-			description = df['description'].iloc[s[0]]
-			neighbourhood = df['neighbourhood'].iloc[s[0]]
-			bedroom = df['bedrooms'].iloc[s[0]]
-			bathroom = df['bathrooms'].iloc[s[0]]
-			amenities = df['amenities'].iloc[s[0]]
-			price = df['price'].iloc[s[0]]
-			review_score_rating = df['review_scores_rating'].iloc[s[0]]
+			picture = listings['picture_url'].iloc[s[0]]
+			listingss = listings['listing_url'].iloc[s[0]]
+			name = listings['name'].iloc[s[0]]
+			description = listings['description'].iloc[s[0]]
+			neighbourhood = listings['neighbourhood'].iloc[s[0]]
+			bedroom = listings['bedrooms'].iloc[s[0]]
+			bathroom = listings['bathrooms'].iloc[s[0]]
+			amenities = listings['amenities'].iloc[s[0]]
+			price = listings['price'].iloc[s[0]]
+			review_score_rating = listings['review_scores_rating'].iloc[s[0]]
 
 		botResponse = "Please find the top listing details:\nlink: "+str(listingss)+"\nTitle: "+str(name)+"\nDescription: "+str(description)+"\nNeighbourhood: "+str(neighbourhood)+"\nBedroom: "+str(bedroom)+"\nBathroom: "+str(bathroom)+"\nAmenities: "+str(amenities)+"\nPrice: "+str(price)+" per night\nRating: "+str(review_score_rating)+" on a scale of 5"
 		
@@ -78,10 +84,10 @@ class ActionlistingsDetails(Action):
 
 		return []
 
-class ActionlistingsSearch(Action):
+class ActionlistingsSearch_Embedding(Action):
 
 	def name(self) -> Text:
-		return "action_listings_search"
+		return "action_listings_search_embedding"
 
 	def run(self, dispatcher: CollectingDispatcher,
 			tracker: Tracker,
@@ -90,11 +96,11 @@ class ActionlistingsSearch(Action):
 		userMessage = tracker.latest_message['text']
 		# use model to find the listings
 		new_doc = preprocess_string(userMessage)
-		test_doc_vector = model.infer_vector(new_doc)
-		sims = model.dv.most_similar(positive = [test_doc_vector])		
+		test_doc_vector = list_embedding_model.infer_vector(new_doc)
+		sims = list_embedding_model.dv.most_similar(positive = [test_doc_vector])		
 		
 		# Get first 5 matches
-		listingss = [df['listing_url'].iloc[s[0]] for s in sims[:5]]
+		listingss = [listings['listing_url'].iloc[s[0]] for s in sims[:5]]
 
 		botResponse = f"Here are the listing details: {listingss}.".replace('[','').replace(']','')
 		
@@ -102,10 +108,10 @@ class ActionlistingsSearch(Action):
 
 		return []
 
-class ActionlistingsPics(Action):
+class ActionlistingsPics_Embedding(Action):
 
 	def name(self) -> Text:
-		return "action_listings_pics"
+		return "action_listings_pics_embedding"
 
 	def run(self, dispatcher: CollectingDispatcher,
 			tracker: Tracker,
@@ -114,10 +120,10 @@ class ActionlistingsPics(Action):
 		userMessage = tracker.latest_message['text']
 
 		new_doc = preprocess_string(userMessage)
-		test_doc_vector = model.infer_vector(new_doc)
-		sims = model.dv.most_similar(positive = [test_doc_vector])		
+		test_doc_vector = list_embedding_model.infer_vector(new_doc)
+		sims = list_embedding_model.dv.most_similar(positive = [test_doc_vector])		
 		
-		listingss = [df['picture_url'].iloc[s[0]] for s in sims[:1]]
+		listingss = [listings['picture_url'].iloc[s[0]] for s in sims[:1]]
 
 		str = ''
 		for lst in listingss:
@@ -160,14 +166,14 @@ class ActionlistingsCancel(Action):
 
 		return []
 
-class ActionGetFAQAnswer(Action):
+class ActionGetHelpLink_Embedding(Action):
 
     def __init__(self):
-        super(ActionGetFAQAnswer, self).__init__()
-        self.faq_data = json.load(open(root+"faq.json", "rt", encoding="utf-8"))
+        super(ActionGetHelpLink_Embedding, self).__init__()
+        self.faq_data = json.load(open(raw+"faq.json", "rt", encoding="utf-8"))
         self.sentence_embedding_choose(sentence_transformer_select, pretrained_model)
-        self.standard_questions_encoder = np.load(root+"questions_embedding.npy")
-        self.standard_questions_encoder_len = np.load(root+"questions_embedding_len.npy")
+        self.standard_questions_encoder = np.load(embeddings+"embeddings/questions_embedding.npy")
+        self.standard_questions_encoder_len = np.load(embeddings+"embeddings/questions_embedding_len.npy")
         print(self.standard_questions_encoder.shape)
 
     def sentence_embedding_choose(self, sentence_transformer_select=True, pretrained_model='stsb-roberta-large'):
@@ -189,7 +195,7 @@ class ActionGetFAQAnswer(Action):
         return top_id, score[top_id]
 
     def name(self) -> Text:
-        return "action_get_FAQ"
+        return "action_get_HelpLink_Embedding"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -210,10 +216,10 @@ class ActionGetFAQAnswer(Action):
             dispatcher.utter_message("Sorry, I can't answer your question. You can dial customer support +1-844-234-2500")
         return []
 
-class ActionlistingsReviews(Action):
+class ActionlistingsReviews_Embedding(Action):
 
 	def name(self) -> Text:
-		return "action_listings_reviews"
+		return "action_listings_reviews_Embedding"
 
 	def run(self, dispatcher: CollectingDispatcher,
 			tracker: Tracker,
@@ -222,13 +228,13 @@ class ActionlistingsReviews(Action):
 		userMessage = tracker.latest_message['text']
 		# use model to find the listings
 		new_doc = preprocess_string(userMessage)
-		test_doc_vector = review_model.infer_vector(new_doc)
-		sims = review_model.dv.most_similar(positive = [test_doc_vector])		
+		test_doc_vector = review_embedding_model.infer_vector(new_doc)
+		sims = review_embedding_model.dv.most_similar(positive = [test_doc_vector])		
 		
 		# Get first 5 matches
 		for s in sims[:1]:
-			listing_id = df['listing_id'].iloc[s[0]]
-			matched = df[df['listing_id']==listing_id]
+			listing_id = listings['listing_id'].iloc[s[0]]
+			matched = listings[listings['listing_id']==listing_id]
 
 			picture = matched['picture_url']
 			listingss = matched['listing_url']
@@ -245,5 +251,29 @@ class ActionlistingsReviews(Action):
 		
 		dispatcher.utter_message(text=botResponse)
 		dispatcher.utter_message(image=picture)
+
+		return []
+
+## Recommendations based on content-based/collaborative filtering.
+class ActionlistingsDetails_CBF(Action):
+	def name(self) -> Text:
+		return "action_listings_details_cbf"
+
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+		userMessage = tracker.latest_message['text']
+		# use model to find the listings
+		model = Word2Vec.load(offline_models+'ContentBasedFilter')		
+		sims = model.wv.similar_by_vector(userMessage, topK+1)[1:]
+		# Get first 5 matches
+		listingss=[]
+		for s in sims:
+			listingss.append('https://www.airbnb.com/rooms/'+s[0])
+
+		botResponse = f"Here are the top recommendation for you: {listingss}.".replace('[','').replace(']','')
+		
+		dispatcher.utter_message(text=botResponse)
 
 		return []

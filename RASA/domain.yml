@@ -63,12 +63,13 @@ responses:
       title: Cancel
     text: Do you like to make a booking?
 actions:
-- action_listings_search
-- action_listings_pics
+- action_listings_search_embedding
+- action_listings_pics_embedding
 - action_book
 - action_cancel
-- action_listings_details
-- action_get_FAQ
-- action_listings_reviews
+- action_listings_details_embedding
+- action_get_HelpLink_Embedding
+- action_listings_reviews_Embedding
+- action_listings_details_cbf
 forms: {}
 e2e_actions: []

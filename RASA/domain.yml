@@ -71,5 +71,6 @@ actions:
 - action_get_HelpLink_Embedding
 - action_listings_reviews_Embedding
 - action_listings_details_cbf
+- action_listings_details_colabf
 forms: {}
 e2e_actions: []

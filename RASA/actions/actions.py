@@ -30,6 +30,10 @@ from rasa_sdk.executor import CollectingDispatcher
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
+from pyspark import SparkContext
+from pyspark.sql import SparkSession
+from pyspark.ml.recommendation import ALSModel
+
 # sentence embedding selection.
 sentence_transformer_select=True
 pretrained_model='stsb-roberta-large' 
@@ -45,9 +49,14 @@ review_embedding_model = Doc2Vec.load(embeddings+'embeddings/review_embeddings')
 offline_models=root+'RASA/offline_models/'
 
 # Load dataset to get listings and reviews.
-listings = pd.read_csv(raw+'listings.csv.gz', sep=',', usecols = ['listing_url','picture_url','name','description','neighbourhood','property_type','bedrooms','bathrooms','amenities','price','review_scores_rating']) 
+listings = pd.read_csv(raw+'listings.csv.gz', sep=',', usecols = ['id','listing_url','picture_url','name','description','neighbourhood','property_type','bedrooms','bathrooms','amenities','price','review_scores_rating']) 
 reviews = pd.read_csv(raw+'reviews.csv.gz', sep=',', usecols = ['listing_id','comments']) 
 
+# use model to find the listings
+spark = SparkSession.builder.getOrCreate()
+sc = spark.sparkContext
+alsmodel = ALSModel.load(offline_models+"als_model")
+		
 ## Recommendations based on feature embeddings.
 class ActionlistingsDetails_Embedding(Action):
 
@@ -232,29 +241,17 @@ class ActionlistingsReviews_Embedding(Action):
 		sims = review_embedding_model.dv.most_similar(positive = [test_doc_vector])		
 		
 		# Get first 5 matches
-		for s in sims[:1]:
-			listing_id = listings['listing_id'].iloc[s[0]]
-			matched = listings[listings['listing_id']==listing_id]
+		listingss=[]
+		for s in sims:
+			listingss.append('https://www.airbnb.com/rooms/'+str(s[0]))
 
-			picture = matched['picture_url']
-			listingss = matched['listing_url']
-			name = matched['name']
-			description = matched['description']
-			neighbourhood = matched['neighbourhood']
-			bedroom = matched['bedrooms']
-			bathroom = matched['bathrooms']
-			amenities = matched['amenities']
-			price = matched['price']
-			review_score_rating = matched['review_scores_rating']
-			
-		botResponse = "Please find the top listing details that matches with your expectations:\nlink: "+str(listingss)+"\nTitle: "+str(name)+"\nDescription: "+str(description)+"\nNeighbourhood: "+str(neighbourhood)+"\nBedroom: "+str(bedroom)+"\nBathroom: "+str(bathroom)+"\nAmenities: "+str(amenities)+"\nPrice: "+str(price)+" per night\nRating: "+str(review_score_rating)+" on a scale of 5"
-		
+		botResponse = f"Here are the top recommendation for you: {listingss}.".replace('[','').replace(']','')
+				
 		dispatcher.utter_message(text=botResponse)
-		dispatcher.utter_message(image=picture)
 
 		return []
 
-## Recommendations based on content-based/collaborative filtering.
+## Recommendations based on collaborative filtering.
 class ActionlistingsDetails_CBF(Action):
 	def name(self) -> Text:
 		return "action_listings_details_cbf"
@@ -264,6 +261,7 @@ class ActionlistingsDetails_CBF(Action):
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
 		userMessage = tracker.latest_message['text']
+		userMessage='2818' ##(to-be-replaced) with dynamic value
 		# use model to find the listings
 		model = Word2Vec.load(offline_models+'ContentBasedFilter')		
 		sims = model.wv.similar_by_vector(userMessage, topK+1)[1:]
@@ -271,6 +269,37 @@ class ActionlistingsDetails_CBF(Action):
 		listingss=[]
 		for s in sims:
 			listingss.append('https://www.airbnb.com/rooms/'+s[0])
+
+		botResponse = f"Here are the top recommendation for you: {listingss}.".replace('[','').replace(']','')
+		
+		dispatcher.utter_message(text=botResponse)
+
+		return []
+
+## Recommendations based on collaborative filtering.
+class ActionlistingsDetails_ColabF(Action):
+	def name(self) -> Text:
+		return "action_listings_details_colabf"
+
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+		userMessage = tracker.latest_message['text']
+	
+		# convert this into a dataframe so that it can be passed into the recommendForUserSubset
+		
+		user_id = [[164729]] ##(to-be-replaced) with dynamic value
+		functiondf = sc.parallelize(user_id).toDF(['reviewer_id'])
+
+		recommendations = alsmodel.recommendForUserSubset(functiondf , topK)
+		recommendations.collect()
+
+		sims = [recommendations.collect()[0]['recommendations'][x]['listing_id'] for x in range(0,topK)]
+		# Get first 5 matches
+		listingss=[]
+		for s in sims:
+			listingss.append('https://www.airbnb.com/rooms/'+str(s))
 
 		botResponse = f"Here are the top recommendation for you: {listingss}.".replace('[','').replace(']','')
 		

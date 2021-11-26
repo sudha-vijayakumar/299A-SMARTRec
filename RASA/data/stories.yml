@@ -17,7 +17,7 @@ stories:
   - intent: listings_pic
   - action: action_listings_pics_embedding
   - intent: listings_details
-  - action: action_listings_details_cbf
+  - action: action_listings_details_colabf
   - intent: listing_review_details
   - action: action_listings_reviews_Embedding
   - action: utter_booking

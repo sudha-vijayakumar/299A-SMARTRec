@@ -1,0 +1,58 @@
+pId:ID(property_type),name,:LABEL
+967,Private room in rental unit,Property_type; Property_type
+968,Private room in townhouse,Property_type; Property_type
+969,Private room in houseboat,Property_type; Property_type
+970,Entire rental unit,Property_type; Property_type
+971,Entire guest suite,Property_type; Property_type
+972,Boat,Property_type; Property_type
+973,Private room in bed and breakfast,Property_type; Property_type
+974,Entire loft,Property_type; Property_type
+975,Private room in residential home,Property_type; Property_type
+976,Private room in loft,Property_type; Property_type
+977,Entire guesthouse,Property_type; Property_type
+978,Private room in boat,Property_type; Property_type
+979,Private room in guest suite,Property_type; Property_type
+980,Entire townhouse,Property_type; Property_type
+981,Room in boutique hotel,Property_type; Property_type
+982,Entire condominium (condo),Property_type; Property_type
+983,Entire residential home,Property_type; Property_type
+984,Entire serviced apartment,Property_type; Property_type
+985,Private room in farm stay,Property_type; Property_type
+986,Houseboat,Property_type; Property_type
+987,Room in bed and breakfast,Property_type; Property_type
+988,Entire chalet,Property_type; Property_type
+989,Private room in guesthouse,Property_type; Property_type
+990,Shared room in rental unit,Property_type; Property_type
+991,Private room in condominium (condo),Property_type; Property_type
+992,Shared room in residential home,Property_type; Property_type
+993,Private room in island,Property_type; Property_type
+994,Entire villa,Property_type; Property_type
+995,Private room in tiny house,Property_type; Property_type
+996,Private room in villa,Property_type; Property_type
+997,Barn,Property_type; Property_type
+998,Private room in bungalow,Property_type; Property_type
+999,Private room in serviced apartment,Property_type; Property_type
+1000,Entire cabin,Property_type; Property_type
+1001,Room in hotel,Property_type; Property_type
+1002,Entire place,Property_type; Property_type
+1003,Room in aparthotel,Property_type; Property_type
+1004,Tiny house,Property_type; Property_type
+1005,Shared room in bed and breakfast,Property_type; Property_type
+1006,Private room in cabin,Property_type; Property_type
+1007,Entire cottage,Property_type; Property_type
+1008,Private room,Property_type; Property_type
+1009,Private room in nature lodge,Property_type; Property_type
+1010,Room in serviced apartment,Property_type; Property_type
+1011,Tower,Property_type; Property_type
+1012,Room in casa particular,Property_type; Property_type
+1013,Shared room in houseboat,Property_type; Property_type
+1014,Room in hostel,Property_type; Property_type
+1015,Shared room in hostel,Property_type; Property_type
+1016,Private room in hostel,Property_type; Property_type
+1017,Bus,Property_type; Property_type
+1018,Shared room in boat,Property_type; Property_type
+1019,Camper/RV,Property_type; Property_type
+1020,Cave,Property_type; Property_type
+1021,Entire home/apt,Property_type; Property_type
+1022,Private room in casa particular,Property_type; Property_type
+1023,Entire vacation home,Property_type; Property_type

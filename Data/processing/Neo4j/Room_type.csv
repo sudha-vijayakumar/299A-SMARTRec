@@ -1,0 +1,5 @@
+rId:ID(room_type),name,:LABEL
+1024,Private room,Room_type; Room_type
+1025,Entire home/apt,Room_type; Room_type
+1026,Hotel room,Room_type; Room_type
+1027,Shared room,Room_type; Room_type

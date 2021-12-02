@@ -1,4 +1,4 @@
-aId:ID(Amenity),:LABEL,name,_start,_end,_type,rating,url,picture_url,host_identity_verified,accomodates,bedrooms,bathrooms,beds,price,review_scores_rating
+id:ID(Amenity),:LABEL,name,_start,_end,_type,rating,url,picture_url,host_identity_verified,accomodates,bedrooms,bathrooms,beds,price,review_scores_rating
 0,:Amenities,Refrigerator,,,,,,,,,,,,,
 1,:Amenities,Paid parking off premises,,,,,,,,,,,,,
 2,:Amenities,Long term stays allowed,,,,,,,,,,,,,

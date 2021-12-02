@@ -1,2 +1,2 @@
-cnId:ID(Country),name,:LABEL
+id:ID(Country),name,:LABEL
 962,Netherlands,Country; Country

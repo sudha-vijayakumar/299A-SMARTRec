@@ -1,10 +1,7 @@
 {
 	"folders": [
 		{
-			"path": ".."
-		},
-		{
-			"path": "../../Chatbot_Movie_Recommendation"
+			"path": "../../../Neo4J"
 		}
 	],
 	"settings": {}

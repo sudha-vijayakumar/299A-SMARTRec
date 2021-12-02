@@ -1,4 +1,4 @@
-sId:ID(State),name,:LABEL
+id:ID(State),name,:LABEL
 890,"Amsterdam, North Holland, Netherlands",State; State
 891,"Amsterdam, Noord-Holland, Netherlands",State; State
 892,De Baarsjes - Oud-West,State; State

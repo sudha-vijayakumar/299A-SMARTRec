@@ -1,2 +1,2 @@
-cId:ID(City),name,:LABEL
+id:ID(City),name,:LABEL
 889,Amsterdam,City; City

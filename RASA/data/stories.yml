@@ -2,13 +2,30 @@ version: "2.0"
 
 stories:
 
+- story: happy path + listings
+  steps:
+  - action: utter_req
+  - intent: faq
+  - action: action_get_HelpLink_Embedding
+  - intent: listings_req
+  - action: action_listings_search_embedding
+  - intent: listings_pic
+  - action: action_listings_pics_embedding
+  - intent: listings_details
+  - action: action_listings_details_colabf
+  - intent: listing_review_details
+  - action: action_listings_reviews_Embedding
+  - action: utter_booking
+  - intent: book
+  - action: action_book
+
 - story: recommendations
   steps:
   - intent: greet
   - action: utter_greet
   - intent: mood_great
-  - action: utter_listings
-  - intent: affirm
+  - action: utter_happy
+  - intent: affirm_neo4j_colabf
   - action: action_listings_details_neo4j_colabf
 
 - story: FAQ

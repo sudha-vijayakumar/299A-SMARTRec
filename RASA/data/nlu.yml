@@ -19,7 +19,7 @@ nlu:
 
 - intent: goodbye
   examples: |
-    - good afternoon
+    - good bye
     - cu
     - good by
     - cee you later
@@ -40,6 +40,13 @@ nlu:
     - that sounds good
     - correct
 
+- intent: affirm_neo4j_colabf
+  examples: |
+    - what are my top suggestions
+    - top recommendations for me
+    - i'm looking for top suggestions for me
+    - ya, can you recommend some nice getaways for me
+    
 - intent: deny
   examples: |
     - no

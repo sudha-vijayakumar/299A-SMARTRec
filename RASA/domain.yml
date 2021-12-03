@@ -11,6 +11,8 @@ intents:
     use_entities: true
 - affirm:
     use_entities: true
+- affirm_neo4j_colabf:
+    use_entities: true
 - deny:
     use_entities: true
 - mood_great:
@@ -44,7 +46,7 @@ responses:
   utter_did_that_help:
   - text: Did that help you?
   utter_happy:
-  - text: Great, carry on!
+  - text: Great! How can i help you?
   utter_goodbye:
   - text: Bye
   utter_iamabot:

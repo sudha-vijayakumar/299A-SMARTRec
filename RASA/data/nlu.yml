@@ -46,6 +46,12 @@ nlu:
     - top recommendations for me
     - i'm looking for top suggestions for me
     - ya, can you recommend some nice getaways for me
+
+- intent: affirm_neo4j_cbf
+  examples: |
+    - can you recommend places with amenities in previous bookings?
+    - get me some recommendations with required amenities
+    - looking for places that match my interests
     
 - intent: deny
   examples: |
@@ -98,6 +104,21 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
 
+- intent: query_knowledge_base
+  examples: |
+    - What nice [listing](object_type) is there?
+    - Is there any [listing](object_type) that sings well?
+    - List me some [listing](object_type)
+    - List me some [city](object_type)
+    - List me some [state](object_type)
+    - List me some [country](object_type)
+    - List me some [amenity](object_type)
+    - List me some [property_type](object_type)
+    - List me some [room_type](object_type)
+    - Suggest some beautiful [listing](object_type)
+    - List me some [2.0](beds) [listing](object_type)
+    - List me some [listings](object_type) with [2.0](bedrooms),[3.0](accomodates) located in [Amsterdam](City) 
+  
 - intent: listings_req
   examples: |
     - find me a place with 
@@ -212,3 +233,49 @@ nlu:
     - Need help about partner info
     - Need help about animal welfare
     - Need help about discovering the world of hosting 2
+
+- synonym: '1'
+  examples: |
+    - First
+    - first
+    - First listing
+- synonym: '2'
+  examples: |
+    - the second
+    - Second listing
+- synonym: '3'
+  examples: |
+    - The third
+    - The third listing
+- synonym: LAST
+  examples: |
+    - the last one
+    - The last one
+    - Last
+- synonym: birthday
+  examples: |
+    - Birthday
+- synonym: user
+  examples: |
+    - USer
+    - Who
+    - Which
+    - Which user
+- synonym: city
+  examples: |
+    - City
+- synonym: state
+  examples: |
+    - State
+- synonym: listing
+  examples: |
+    - listings
+- synonym: '4'
+  examples: |
+    - the fourth
+    - Fourth listing
+- synonym: Country
+  examples: |
+    - location
+    - neighborhood
+

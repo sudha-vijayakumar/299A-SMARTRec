@@ -13,10 +13,12 @@
 # - https://homes.cs.washington.edu/~msap/acl2020-commonsense/slides/02%20-%20knowledge%20in%20LMs.pdf
 # - https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
 
-
+import os
 from typing import Any, Text, Dict, List
-from rasa_sdk import Action, Tracker
+from rasa_sdk import Action, Tracker, utils
 from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.knowledge_base.actions import ActionQueryKnowledgeBase
+from rasa_sdk.knowledge_base.storage import InMemoryKnowledgeBase
 
 import pandas as pd
 from gensim.models.doc2vec import Doc2Vec
@@ -59,6 +61,11 @@ reviews = pd.read_csv(raw+'reviews.csv.gz', sep=',', usecols = ['listing_id','co
 spark = SparkSession.builder.getOrCreate()
 sc = spark.sparkContext
 alsmodel = ALSModel.load(offline_models+"als_model")
+
+USE_NEO4J = bool(os.getenv("USE_NEO4J", True))
+
+if USE_NEO4J:
+    from neo4j_knowledge_base import Neo4jKnowledgeBase
 
 # use neo4j for real-time recommendations.
 g = Graph("bolt://localhost:7687/neo4j", password = "test")
@@ -109,7 +116,7 @@ class ActionlistingsDetails_Embedding(Action):
 		# use model to find the listings
 		new_doc = preprocess_string(userMessage)
 		test_doc_vector = list_embedding_model.infer_vector(new_doc)
-		sims = list_embedding_model.dv.most_similar(positive = [test_doc_vector])		
+		sims = list_embedding_model.docvecs.most_similar(positive = [test_doc_vector])		
 		
 		# Get first 5 matches
 		for s in sims[:1]:
@@ -144,7 +151,7 @@ class ActionlistingsSearch_Embedding(Action):
 		# use model to find the listings
 		new_doc = preprocess_string(userMessage)
 		test_doc_vector = list_embedding_model.infer_vector(new_doc)
-		sims = list_embedding_model.dv.most_similar(positive = [test_doc_vector])		
+		sims = list_embedding_model.docvecs.most_similar(positive = [test_doc_vector])		
 		
 		# Get first 5 matches
 		listingss = [listings['listing_url'].iloc[s[0]] for s in sims[:5]]
@@ -168,7 +175,7 @@ class ActionlistingsPics_Embedding(Action):
 
 		new_doc = preprocess_string(userMessage)
 		test_doc_vector = list_embedding_model.infer_vector(new_doc)
-		sims = list_embedding_model.dv.most_similar(positive = [test_doc_vector])		
+		sims = list_embedding_model.docvecs.most_similar(positive = [test_doc_vector])		
 		
 		listingss = [listings['picture_url'].iloc[s[0]] for s in sims[:1]]
 
@@ -276,7 +283,7 @@ class ActionlistingsReviews_Embedding(Action):
 		# use model to find the listings
 		new_doc = preprocess_string(userMessage)
 		test_doc_vector = review_embedding_model.infer_vector(new_doc)
-		sims = review_embedding_model.dv.most_similar(positive = [test_doc_vector])		
+		sims = review_embedding_model.docvecs.most_similar(positive = [test_doc_vector])		
 		
 		# Get first 5 matches
 		listingss=[]
@@ -345,7 +352,7 @@ class ActionlistingsDetails_ColabF(Action):
 
 		return []
 
-## Recommendations based on collaborative filtering.
+## Recommendations based on real-time collaborative filtering.
 class ActionlistingsDetails_Neo4jColabF(Action):
 	def name(self) -> Text:
 		return "action_listings_details_neo4j_colabf"
@@ -385,3 +392,103 @@ class ActionlistingsDetails_Neo4jColabF(Action):
 		dispatcher.utter_message(text=botResponse)
 
 		return []
+
+## Recommendations based on real-time content-based filtering.
+class ActionlistingsDetails_Neo4jCBF(Action):
+	def name(self) -> Text:
+		return "action_listings_details_neo4j_cbf"
+
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+		userMessage = tracker.latest_message['text']
+			
+		query = """
+				MATCH (u:User {name:$cid})-[:RATED]->(s:Listing)-[:HAS_AMENITY]->(c:Amenity)<-[:HAS_AMENITY]-(z:Listing)
+				WHERE NOT EXISTS ((u)-[:RATED]->(z))
+				WITH s, z, COUNT(c) AS intersection
+				MATCH (s)-[:HAS_AMENITY]->(sc:Amenity)
+				WITH s, z, intersection, COLLECT(sc.name) AS s1
+				MATCH (z)-[:HAS_AMENITY]->(zc:Amenity)
+				WITH s, z, s1, intersection, COLLECT(zc.name) AS s2
+				WITH s, z, intersection, s1+[x IN s2 WHERE NOT x IN s1] AS union, s1, s2
+				RETURN s.name as UserListing, z.name as Recommendate, s1 as UserListingAmenities, s2 as RecommendateListingAmenities, ((1.0*intersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT $k;
+				"""
+		listingss=[]
+		recoAmenity=[]
+		for row in g.run(query, cid = "8726758", k = 5).data():
+			listingss.append('https://www.airbnb.com/rooms/'+str(row['Recommendate']))
+			recoAmenity.append(str(row['UserListingAmenities']))
+
+		botResponse = f"Here are the top recommendation for you: {listingss}.".replace('[','').replace(']','')
+		dispatcher.utter_message(text=botResponse)
+
+		return []
+
+
+class Neo4jKnowledgeBaseAction(ActionQueryKnowledgeBase):
+    def name(self) -> Text:
+        return "action_response_query"
+
+    def __init__(self):
+        if USE_NEO4J:
+            print("using Neo4jKnowledgeBase")
+            knowledge_base = Neo4jKnowledgeBase(
+                "bolt://localhost:7687", "neo4j", "test"
+            )
+        else:
+            print("using InMemoryKnowledgeBase")
+            #query locally.
+
+        super().__init__(knowledge_base)
+
+    async def utter_objects(
+        self,
+        dispatcher,
+        object_type,
+        objects,
+    ) -> None:
+        """
+        Utters a response to the user that lists all found objects.
+        Args:
+            dispatcher: the dispatcher
+            object_type: the object type
+            objects: the list of objects
+        """
+        if objects:
+            dispatcher.utter_message(text=f"Found the following {object_type}s:")
+
+            repr_function = await utils.call_potential_coroutine(
+                self.knowledge_base.get_representation_function_of_object(object_type)
+            )
+
+            for i, obj in enumerate(objects, 1):
+                dispatcher.utter_message(text=f"{i}: {repr_function(obj)}")
+        else:
+            dispatcher.utter_message(text=f"I didn't find any {object_type}s.")
+
+    def utter_attribute_value(
+        self,
+        dispatcher,
+        object_name,
+        attribute_name,
+        attribute_value,
+    ) -> None:
+        """
+        Utters a response that informs the user about the attribute value of the
+        attribute of interest.
+        Args:
+            dispatcher: the dispatcher
+            object_name: the name of the object
+            attribute_name: the name of the attribute
+            attribute_value: the value of the attribute
+        """
+        if attribute_value:
+            dispatcher.utter_message(
+                text=f"The {attribute_name} of {object_name} is {attribute_value}."
+            )
+        else:
+            dispatcher.utter_message(
+                text=f"I didn't find the {attribute_name} of {object_name}."
+            )

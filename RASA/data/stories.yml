@@ -27,7 +27,16 @@ stories:
   - action: utter_happy
   - intent: affirm_neo4j_colabf
   - action: action_listings_details_neo4j_colabf
+  - intent: affirm_neo4j_cbf
+  - action: action_listings_details_neo4j_cbf
 
+- story: knowledge query
+  steps:
+    - intent: query_knowledge_base
+    - action: action_response_query
+    - intent: query_knowledge_base
+    - action: action_response_query
+ 
 - story: FAQ
   steps:
   - intent: greet

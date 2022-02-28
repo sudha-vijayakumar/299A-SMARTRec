@@ -1,7 +1,5 @@
 version: "2.0"
-
 stories:
-
 - story: happy path + listings
   steps:
   - action: utter_req
@@ -18,7 +16,6 @@ stories:
   - action: utter_booking
   - intent: book
   - action: action_book
-
 - story: recommendations
   steps:
   - intent: greet
@@ -29,14 +26,12 @@ stories:
   - action: action_listings_details_neo4j_colabf
   - intent: affirm_neo4j_cbf
   - action: action_listings_details_neo4j_cbf
-
 - story: knowledge query
   steps:
-    - intent: query_knowledge_base
-    - action: action_response_query
-    - intent: query_knowledge_base
-    - action: action_response_query
- 
+  - intent: query_knowledge_base
+  - action: action_response_query
+  - intent: query_knowledge_base
+  - action: action_response_query
 - story: FAQ
   steps:
   - intent: greet
@@ -49,3 +44,23 @@ stories:
   - action: utter_happy
   - intent: affirm
   - action: utter_goodbye
+- story: Story from Conversation ID b33d2bd79f3f4f4cb555bfd782887ead
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+  - intent: affirm_neo4j_colabf
+  - action: action_listings_details_neo4j_colabf
+  - intent: affirm_neo4j_cbf
+  - action: action_listings_details_neo4j_cbf
+- story: Story from Conversation ID b4d9d9342a5640ecab4d71f01bda2c8b
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+  - intent: affirm_neo4j_colabf
+  - action: action_listings_details_neo4j_colabf
+  - intent: affirm_neo4j_cbf
+  - action: action_listings_details_neo4j_cbf

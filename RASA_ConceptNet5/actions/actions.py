@@ -72,7 +72,7 @@ class ActionReview_ConceptNet5(Action):
 		
 		print(userMessage)
 		#replace with dynamic value.
-		word='Refrigerator'
+		word='microfridge'
 		word=word.lower()
 		
 		if word in mem_cache_conceptNet5:
@@ -82,17 +82,15 @@ class ActionReview_ConceptNet5(Action):
 			for item in collection:
 				query_string+="r.name=~'(?i).*"+item.lower()+".*' or "
 			query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
-			query_string+=" RETURN l.url As url LIMIT "+str(topK)+";"
+			query_string+=" RETURN l.url As url,l.picture_url As pic LIMIT "+str(topK)+";"
 
 
-			listingss=[]
-			recoAmenity=[]
 			query = ""+query_string+""
 			for row in g.run(query, query_string=query_string,k=topK):
-				listingss.append(row[0])
+				print(row[0])
+				dispatcher.utter_message(text=row[0].replace('\'',''))
+				dispatcher.utter_message(image=row[1])
 
-			botResponse = f"Here are the top recommendation for you: {listingss}.".replace('[','').replace(']','')
-			dispatcher.utter_message(text=botResponse)
 		else:
 			dispatcher.utter_message(text="No matched listings")
 

@@ -72,24 +72,68 @@ class ActionReview_ConceptNet5(Action):
 		
 		print(userMessage)
 		#replace with dynamic value.
-		word='microfridge'
-		word=word.lower()
+		prediction = tracker.latest_message['entities'][0]['value']
 		
-		if word in mem_cache_conceptNet5:
-			collection = mem_cache_conceptNet5[word]
-			## query string
-			query_string="MATCH (r:Review_Text)-[]-(l:Listing) WHERE "
-			for item in collection:
-				query_string+="r.name=~'(?i).*"+item.lower()+".*' or "
-			query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
-			query_string+=" RETURN l.url As url,l.picture_url As pic LIMIT "+str(topK)+";"
+		if prediction:
+			#replace with dynamic value.
+			word=str(prediction)
+			word=word.lower()
+			
+			if word in mem_cache_conceptNet5:
+				collection = mem_cache_conceptNet5[word]
+				print(collection)
+				## query string
+
+				query_string="MATCH (r:Review_Text)-[]-(l:Listing) WHERE "
+				for item in collection:
+					query_string+="r.name=~'(?i).*"+item.lower()+".*' or "
+				query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
+				query_string+=" RETURN l.url As url,l.picture_url As pic LIMIT "+str(topK)+";"
 
 
-			query = ""+query_string+""
-			for row in g.run(query, query_string=query_string,k=topK):
-				print(row[0])
-				dispatcher.utter_message(text=row[0].replace('\'',''))
-				dispatcher.utter_message(image=row[1])
+				query = ""+query_string+""
+				for row in g.run(query, query_string=query_string,k=topK):
+					print(row[0])
+					dispatcher.utter_message(text=row[0].replace('\'',''))
+					dispatcher.utter_message(image=row[1])
+
+		else:
+			dispatcher.utter_message(text="No matched listings")
+
+		return []
+class ActionListing_ConceptNet5(Action):
+	def name(self) -> Text:
+		return "action_listing_ConceptNet5"
+
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+		userMessage = tracker.latest_message['text']
+		
+		prediction = tracker.latest_message['entities'][0]['value']
+		
+		if prediction:
+			#replace with dynamic value.
+			word=str(prediction)
+			word=word.lower()
+			
+			if word in mem_cache_conceptNet5:
+				collection = mem_cache_conceptNet5[word]
+				print(collection)
+				## query string
+				query_string="MATCH (r:Listing_Text)-[]-(l:Listing) WHERE "
+				for item in collection:
+					query_string+="r.name=~'(?i).*"+item.lower()+".*' or "
+				query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
+				query_string+=" RETURN l.url As url,l.picture_url As pic LIMIT "+str(topK)+";"
+
+
+				query = ""+query_string+""
+				for row in g.run(query, query_string=query_string,k=topK):
+					print(row[0])
+					dispatcher.utter_message(text=row[0].replace('\'',''))
+					dispatcher.utter_message(image=row[1])
 
 		else:
 			dispatcher.utter_message(text="No matched listings")

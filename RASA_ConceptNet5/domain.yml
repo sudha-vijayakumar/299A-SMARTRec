@@ -2,7 +2,7 @@ version: '2.0'
 config:
   store_entities_as_slots: true
 session_config:
-  session_expiration_time: 60
+  session_expiration_time: 500
   carry_over_slots_to_new_session: true
 intents:
 - greet:
@@ -10,8 +10,6 @@ intents:
 - goodbye:
     use_entities: true
 - affirm:
-    use_entities: true
-- affirm_neo4j_conceptNet5_review:
     use_entities: true
 - deny:
     use_entities: true
@@ -37,6 +35,10 @@ intents:
     use_entities: true
 - query_knowledge_base:
     use_entities: []
+- affirm_neo4j_conceptNet5_review:
+    use_entities: []
+- affirm_neo4j_conceptNet5_listing:
+    use_entities: []
 entities:
 - object_type
 - attribute
@@ -52,6 +54,7 @@ entities:
 - beds
 - bedrooms
 - accomodates
+- wordid
 slots:
   attribute:
     type: rasa.shared.core.slots.AnySlot
@@ -158,6 +161,12 @@ slots:
     initial_value: null
     auto_fill: true
     influence_conversation: false
+  wordid:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+
 responses:
   utter_greet:
   - text: Hey! How are you?
@@ -188,5 +197,6 @@ responses:
 actions:
 - utter_default
 - action_reviews_ConceptNet5
+- action_listing_ConceptNet5
 forms: {}
 e2e_actions: []

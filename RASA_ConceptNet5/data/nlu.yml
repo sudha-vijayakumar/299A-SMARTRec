@@ -36,12 +36,21 @@ nlu:
     - of course
     - that sounds good
     - correct
+
+- regex: wordid
+  examples: |
+    - \b[a-z]\b
+
 - intent: affirm_neo4j_conceptNet5_review
   examples: |
-    - find me places with 
+    - find me places with [microfridge](wordid)?
     - i am looking for places with
     - can you recommend places with
-    
+- intent: affirm_neo4j_conceptNet5_listing
+  examples: |
+    - find listings with 
+    - i am looking for listings with
+    - can you recommend listings with 
 - intent: deny
   examples: |
     - no

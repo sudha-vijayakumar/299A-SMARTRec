@@ -8,3 +8,5 @@ stories:
   - action: utter_happy
   - intent: affirm_neo4j_conceptNet5_review
   - action: action_reviews_ConceptNet5
+  - intent: affirm_neo4j_conceptNet5_listing
+  - action: action_listing_ConceptNet5

@@ -39,6 +39,8 @@ intents:
     use_entities: true
 - query_knowledge_base:
     use_entities: []
+- stop:
+    use_entities: []
 entities:
 - object_type
 - attribute
@@ -175,9 +177,9 @@ responses:
   utter_iamabot:
   - text: I am a bot, powered by Rasa. I can find you a good airbnb listing and answer common questions!
   utter_listings:
-  - text: Do you want me to look for a listings?
-  - text: Do you need me to look for a listings?
-  - text: Would you like to look for a listings?
+  - text: Do you want me to look for listings?
+  - text: Do you need me to look for listings?
+  - text: Would you like to look for listings?
   utter_req:
   - text: Okay! provide the requirement of the listings you are looking for.
   utter_booking:
@@ -187,20 +189,15 @@ responses:
     - payload: /cancel
       title: Cancel
     text: Do you like to make a booking?
+  utter_ask_continue:
+    - text: Do you like to stop querying the knowledge base?
+    - text: Do you like to start search from beginning?
 actions:
-- action_listings_search_embedding
-- action_listings_pics_embedding
-- action_book
-- action_cancel
-- action_listings_details_embedding
-- action_get_HelpLink_Embedding
-- action_listings_reviews_Embedding
-- action_listings_details_cbf
-- action_listings_details_colabf
 - action_listings_details_neo4j_colabf
 - action_listings_details_neo4j_cbf
 - action_response_query
 - utter_ask_rephrase
 - utter_default
+- action_deactivate_loop
 forms: {}
 e2e_actions: []

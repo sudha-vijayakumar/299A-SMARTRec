@@ -94,10 +94,14 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+- intent: stop
+  examples: |
+    - I would like to search from the beginning
+    - I would like to start a fresh search
 - intent: query_knowledge_base
   examples: |
     - What nice [listing](object_type) is there?
-    - Is there any [listing](object_type) that sings well?
+    - Is there any good [listing](object_type)?
     - List me some [listing](object_type)
     - List me some [city](object_type)
     - List me some [state](object_type)

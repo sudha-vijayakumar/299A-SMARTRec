@@ -24,8 +24,14 @@ class Neo4jKnowledgeBase(KnowledgeBase):
         self.representation_attribute = defaultdict(lambda: "name")
 
         self.relation_attributes = {
-            "Listing":{"City":"HAS_CITY"},
+            "Listing":{"City":"HAS_CITY","State":"HAS_STATE","Country":"HAS_COUNTRY",
+                       "Property_type":"HAS_PROPERTY_TYPE","room_type":"HAS_ROOM_TYPE","Amenity":"HAS_AMENITY"},
             "City":{},
+            "State":{},
+            "Country":{},
+            "Property_type":{},
+            "Room_type":{},
+            "Amenity":{}
         }
 
         super().__init__()
@@ -55,10 +61,12 @@ class Neo4jKnowledgeBase(KnowledgeBase):
         query = "MATCH (o:{object_type}) RETURN o LIMIT 1".format(
             object_type=object_type
         )
-        print(query)
+        # print(query)
+
         result = tx.run(query,)
 
         record = result.single()
+
 
         if record:
             return list(record[0].keys())
@@ -124,7 +132,7 @@ class Neo4jKnowledgeBase(KnowledgeBase):
                 attrs=_dict_to_cypher(attributions),
                 limit=limit,
             )
-            print(query)
+            # print(query)
             result = tx.run(query,)
 
             return [dict(record["o"].items()) for record in result]
@@ -146,7 +154,7 @@ class Neo4jKnowledgeBase(KnowledgeBase):
                 basic_query + " " + where_clause + " RETURN o LIMIT {}".format(limit)
             )
 
-            print(query)
+            # print(query)
             result = tx.run(query,)
 
             return [dict(record["o"].items()) for record in result]
@@ -171,12 +179,13 @@ class Neo4jKnowledgeBase(KnowledgeBase):
         query = "MATCH (o:{object_type} {{{key}:{value}}}) RETURN o, ID(o)".format(
             object_type=object_type, key=key_attribute, value=object_identifier
         )
-        print(query)
+        # print(query)
         result = tx.run(query,)
         record = result.single()
 
         if record:
             attr_dict = dict(record[0].items())
+            print(record,record[0])
             oid = record[1]
         else:
             # try to match representation attribute
@@ -185,11 +194,12 @@ class Neo4jKnowledgeBase(KnowledgeBase):
                 key=representation_attribute,
                 value=object_identifier,
             )
-            print(query)
+            # print(query)
             result = tx.run(query,)
             record = result.single()
             if record:
                 attr_dict = dict(record[0].items())
+                print(record,record[0])
                 oid = record[1]
             else:
                 # finally, failed
@@ -201,10 +211,11 @@ class Neo4jKnowledgeBase(KnowledgeBase):
         relation_attr = {}
         for k, v in relation.items():
             query = "MATCH (o)-[:{}]->(t) WHERE ID(o)={} RETURN t.name".format(v, oid)
-            print(query)
+            # print(query)
             result = tx.run(query)
             record = result.single()
             if record:
+                print(record,record[0])
                 attr = record[0]
             else:
                 attr = None
@@ -279,36 +290,14 @@ if __name__ == "__main__":
     kb = Neo4jKnowledgeBase("bolt://localhost:7687", "neo4j", "test")
     loop = asyncio.get_event_loop()
 
-    # result = loop.run_until_complete(kb.get_objects("Listing", [], 5))
-    # print(result)
 
     result = loop.run_until_complete(
         kb.get_objects("Listing", [{"name": "beds", "value": "2.0"},{"name": "price", "value": "$115.00"}], 5)
     )
     print(result)
 
-    # result = loop.run_until_complete(
-    #     kb.get_objects(
-    #         "song",
-    #         [{"name": "name", "value": "晴天"}, {"name": "album", "value": "叶惠美"}],
-    #         5,
-    #     )
-    # )
-    # print(result)
-
-    # result = loop.run_until_complete(kb.get_object("singer", "0"))
-    # print(result)
-
-    # result = loop.run_until_complete(kb.get_object("singer", "周杰伦"))
-    # print(result)
-
-    # result = loop.run_until_complete(kb.get_object("song", "晴天"))
-    # print(result)
-
     result = loop.run_until_complete(kb.get_attributes_of_object("Listing"))
+    
     print(result)
-
-    # result = loop.run_until_complete(kb.get_attributes_of_object("song"))
-    # print(result)
 
     loop.close()

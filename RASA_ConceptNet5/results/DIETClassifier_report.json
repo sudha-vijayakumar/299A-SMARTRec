@@ -1,0 +1,27 @@
+{
+  "wordid": {
+    "precision": 1.0,
+    "recall": 0.9921557234166183,
+    "f1-score": 0.996062417967041,
+    "support": 10326,
+    "confused_with": {}
+  },
+  "micro avg": {
+    "precision": 1.0,
+    "recall": 0.9921557234166183,
+    "f1-score": 0.996062417967041,
+    "support": 10326
+  },
+  "macro avg": {
+    "precision": 1.0,
+    "recall": 0.9921557234166183,
+    "f1-score": 0.996062417967041,
+    "support": 10326
+  },
+  "weighted avg": {
+    "precision": 1.0,
+    "recall": 0.9921557234166183,
+    "f1-score": 0.996062417967041,
+    "support": 10326
+  }
+}

@@ -55,10 +55,6 @@ def getConceptTags(word,topK):
 			collection.append(processed)
 	return collection
 
-
-
-
-
 ## Recommendations based on real-time conceptnet + review text fusion.
 class ActionReview_ConceptNet5(Action):
 	def name(self) -> Text:
@@ -81,7 +77,9 @@ class ActionReview_ConceptNet5(Action):
 			
 			if word in mem_cache_conceptNet5:
 				collection = mem_cache_conceptNet5[word]
-				print(collection)
+
+				# print('Recommendation based on the following review tags:')
+				# print(collection)
 				## query string
 
 				query_string="MATCH (r:Review_Text)-[]-(l:Listing) WHERE "
@@ -93,7 +91,16 @@ class ActionReview_ConceptNet5(Action):
 
 				query = ""+query_string+""
 				for row in g.run(query, query_string=query_string,k=topK):
-					print(row[0])
+					dispatcher.utter_message(text=row[0].replace('\'',''))
+					dispatcher.utter_message(image=row[1])
+			else:
+				query_string="MATCH (r:Review_Text)-[]-(l:Listing) WHERE "
+				query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
+				query_string+=" RETURN l.url As url,l.picture_url As pic LIMIT "+str(topK)+";"
+
+
+				query = ""+query_string+""
+				for row in g.run(query, query_string=query_string,k=topK):
 					dispatcher.utter_message(text=row[0].replace('\'',''))
 					dispatcher.utter_message(image=row[1])
 
@@ -118,6 +125,9 @@ class ActionListing_ConceptNet5(Action):
 			word=str(prediction)
 			word=word.lower()
 			
+			# print('Recommendation based on the following review tags:')
+			# print(collection)
+
 			if word in mem_cache_conceptNet5:
 				collection = mem_cache_conceptNet5[word]
 				print(collection)
@@ -131,7 +141,14 @@ class ActionListing_ConceptNet5(Action):
 
 				query = ""+query_string+""
 				for row in g.run(query, query_string=query_string,k=topK):
-					print(row[0])
+					dispatcher.utter_message(text=row[0].replace('\'',''))
+					dispatcher.utter_message(image=row[1])
+			else:
+				query_string="MATCH (r:Listing_Text)-[]-(l:Listing) WHERE "
+				query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
+				query_string+=" RETURN l.url As url,l.picture_url As pic LIMIT "+str(topK)+";"
+				query = ""+query_string+""
+				for row in g.run(query, query_string=query_string,k=topK):
 					dispatcher.utter_message(text=row[0].replace('\'',''))
 					dispatcher.utter_message(image=row[1])
 

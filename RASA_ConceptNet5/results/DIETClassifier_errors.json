@@ -1,0 +1,350 @@
+[
+  {
+    "text": "I am looking for a place with with guest feedback about -very?",
+    "entities": [
+      {
+        "start": 56,
+        "end": 61,
+        "value": "-very",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "find me a place with amenities like body soap",
+    "entities": [
+      {
+        "start": 36,
+        "end": 45,
+        "value": "body soap",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "i am looking for a place body soap",
+    "entities": [
+      {
+        "start": 25,
+        "end": 34,
+        "value": "body soap",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "find me a place with amenities like conditioner",
+    "entities": [
+      {
+        "start": 36,
+        "end": 47,
+        "value": "conditioner",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "i am looking for a place conditioner",
+    "entities": [
+      {
+        "start": 25,
+        "end": 36,
+        "value": "conditioner",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "find me a place with amenities like stainless steel gas stove",
+    "entities": [
+      {
+        "start": 36,
+        "end": 61,
+        "value": "stainless steel gas stove",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "i am looking for a place stainless steel gas stove",
+    "entities": [
+      {
+        "start": 25,
+        "end": 50,
+        "value": "stainless steel gas stove",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "find me a place with amenities like - body soap",
+    "entities": [
+      {
+        "start": 36,
+        "end": 47,
+        "value": "- body soap",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "i am looking for a place - body soap",
+    "entities": [
+      {
+        "start": 25,
+        "end": 36,
+        "value": "- body soap",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "find me a place with amenities like - conditioner",
+    "entities": [
+      {
+        "start": 36,
+        "end": 49,
+        "value": "- conditioner",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "i am looking for a place - conditioner",
+    "entities": [
+      {
+        "start": 25,
+        "end": 38,
+        "value": "- conditioner",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "find me a place with amenities like . body soap",
+    "entities": [
+      {
+        "start": 36,
+        "end": 47,
+        "value": ". body soap",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "i am looking for a place . body soap",
+    "entities": [
+      {
+        "start": 25,
+        "end": 36,
+        "value": ". body soap",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "find me a place with amenities like * use 'liebherr' fridge in kitchen. * i wash the dishes. refrigerator",
+    "entities": [
+      {
+        "start": 36,
+        "end": 105,
+        "value": "* use 'liebherr' fridge in kitchen. * i wash the dishes. refrigerator",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "i am looking for a place * use 'liebherr' fridge in kitchen. * i wash the dishes. refrigerator",
+    "entities": [
+      {
+        "start": 25,
+        "end": 94,
+        "value": "* use 'liebherr' fridge in kitchen. * i wash the dishes. refrigerator",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "find me a place with amenities like ??? conditioner",
+    "entities": [
+      {
+        "start": 36,
+        "end": 51,
+        "value": "??? conditioner",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "i am looking for a place ??? conditioner",
+    "entities": [
+      {
+        "start": 25,
+        "end": 40,
+        "value": "??? conditioner",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "find me a place with amenities like . conditioner",
+    "entities": [
+      {
+        "start": 36,
+        "end": 49,
+        "value": ". conditioner",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "i am looking for a place . conditioner",
+    "entities": [
+      {
+        "start": 25,
+        "end": 38,
+        "value": ". conditioner",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "find me a place with amenities like .  stainless steel gas stove",
+    "entities": [
+      {
+        "start": 36,
+        "end": 64,
+        "value": ".  stainless steel gas stove",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "i am looking for a place .  stainless steel gas stove",
+    "entities": [
+      {
+        "start": 25,
+        "end": 53,
+        "value": ".  stainless steel gas stove",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "find me a entire condominium (condo) property",
+    "entities": [
+      {
+        "start": 10,
+        "end": 36,
+        "value": "entire condominium (condo)",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "looking for a entire condominium (condo) property",
+    "entities": [
+      {
+        "start": 14,
+        "end": 40,
+        "value": "entire condominium (condo)",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "find me a private room in condominium (condo) property",
+    "entities": [
+      {
+        "start": 10,
+        "end": 45,
+        "value": "private room in condominium (condo)",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "looking for a private room in condominium (condo) property",
+    "entities": [
+      {
+        "start": 14,
+        "end": 49,
+        "value": "private room in condominium (condo)",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "looking for aprivate room room",
+    "entities": [
+      {
+        "start": 13,
+        "end": 25,
+        "value": "private room",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "looking for aentire home/apt room",
+    "entities": [
+      {
+        "start": 13,
+        "end": 28,
+        "value": "entire home/apt",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "looking for ahotel room room",
+    "entities": [
+      {
+        "start": 13,
+        "end": 23,
+        "value": "hotel room",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "looking for ashared room room",
+    "entities": [
+      {
+        "start": 13,
+        "end": 24,
+        "value": "shared room",
+        "entity": "wordid"
+      }
+    ],
+    "predicted_entities": []
+  }
+]

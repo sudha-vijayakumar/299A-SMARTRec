@@ -1,11 +1,4 @@
 {
-  "mood_great": {
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 14,
-    "confused_with": {}
-  },
   "goodbye": {
     "precision": 1.0,
     "recall": 1.0,
@@ -13,25 +6,11 @@
     "support": 11,
     "confused_with": {}
   },
-  "mood_unhappy": {
+  "mood_great": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
     "support": 14,
-    "confused_with": {}
-  },
-  "affirm": {
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 6,
-    "confused_with": {}
-  },
-  "greet": {
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 13,
     "confused_with": {}
   },
   "bot_challenge": {
@@ -39,6 +18,13 @@
     "recall": 1.0,
     "f1-score": 1.0,
     "support": 4,
+    "confused_with": {}
+  },
+  "affirm": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 6,
     "confused_with": {}
   },
   "affirm_neo4j_conceptNet5_review": {
@@ -60,6 +46,20 @@
     "recall": 1.0,
     "f1-score": 1.0,
     "support": 2952,
+    "confused_with": {}
+  },
+  "greet": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 13,
+    "confused_with": {}
+  },
+  "mood_unhappy": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 14,
     "confused_with": {}
   },
   "accuracy": 1.0,

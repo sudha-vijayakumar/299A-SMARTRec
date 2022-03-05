@@ -69,7 +69,16 @@
         "entity": "wordid"
       }
     ],
-    "predicted_entities": []
+    "predicted_entities": [
+      {
+        "entity": "wordid",
+        "start": 46,
+        "end": 55,
+        "confidence_entity": 0.531947910785675,
+        "value": "steel gas",
+        "extractor": "DIETClassifier"
+      }
+    ]
   },
   {
     "text": "i am looking for a place stainless steel gas stove",
@@ -81,7 +90,16 @@
         "entity": "wordid"
       }
     ],
-    "predicted_entities": []
+    "predicted_entities": [
+      {
+        "entity": "wordid",
+        "start": 35,
+        "end": 50,
+        "confidence_entity": 0.5119624733924866,
+        "value": "steel gas stove",
+        "extractor": "DIETClassifier"
+      }
+    ]
   },
   {
     "text": "find me a place with amenities like - body soap",
@@ -237,7 +255,16 @@
         "entity": "wordid"
       }
     ],
-    "predicted_entities": []
+    "predicted_entities": [
+      {
+        "entity": "wordid",
+        "start": 49,
+        "end": 58,
+        "confidence_entity": 0.531947910785675,
+        "value": "steel gas",
+        "extractor": "DIETClassifier"
+      }
+    ]
   },
   {
     "text": "i am looking for a place .  stainless steel gas stove",
@@ -249,7 +276,16 @@
         "entity": "wordid"
       }
     ],
-    "predicted_entities": []
+    "predicted_entities": [
+      {
+        "entity": "wordid",
+        "start": 38,
+        "end": 53,
+        "confidence_entity": 0.5119624733924866,
+        "value": "steel gas stove",
+        "extractor": "DIETClassifier"
+      }
+    ]
   },
   {
     "text": "find me a entire condominium (condo) property",

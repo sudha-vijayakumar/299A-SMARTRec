@@ -175,7 +175,7 @@ class ActionlistingsDetails_Neo4jCBF(Action):
 			dispatcher.utter_message(text="Amenities:\n")
 			dispatcher.utter_message(text=str(row['UserListingAmenities']))
 			dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
-			dispatcher.utter_message(text="bedrooms:"+str(row['bedrooms']))
+			dispatcher.utter_message(text="Bedrooms:"+str(row['bedrooms']))
 			dispatcher.utter_message(text="Bathrooms:"+str(row['bathrooms']))
 			dispatcher.utter_message(text="Beds:"+str(row['beds']))
 			dispatcher.utter_message(text="Host_Verified:"+str(row['verified']))

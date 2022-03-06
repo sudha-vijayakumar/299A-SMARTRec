@@ -198,5 +198,6 @@ actions:
 - utter_default
 - action_reviews_ConceptNet5
 - action_listing_ConceptNet5
+- action_image_carosaul
 forms: {}
 e2e_actions: []

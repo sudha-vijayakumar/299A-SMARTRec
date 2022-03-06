@@ -70,6 +70,10 @@ class ActionReview_ConceptNet5(Action):
 		userMessage = tracker.latest_message['text']
 		
 		print(userMessage)
+
+		data = {"payload": 'cardsCarousel'}
+		image_list = []
+			
 		#replace with dynamic value.
 		prediction = tracker.latest_message['entities'][0]['value']
 		
@@ -77,7 +81,7 @@ class ActionReview_ConceptNet5(Action):
 			#replace with dynamic value.
 			word=str(prediction)
 			word=word.lower()
-			
+
 			if word in mem_cache_conceptNet5:
 				collection = mem_cache_conceptNet5[word]
 
@@ -88,11 +92,19 @@ class ActionReview_ConceptNet5(Action):
 					query_string+="r.name=~'(?i).*"+item.lower()+".*' or "
 					tags+=item.lower()+","
 				query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
-				query_string+=" RETURN l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
+				query_string+=" RETURN l.name as name, l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
 				
 				query = ""+query_string+""
 				count=0
 				for row in g.run(query, query_string=query_string,k=topK):
+					print(row)
+					dic={}
+					dic["image"] = row['picture_url']
+					dic['title'] = row['name']
+					dic['url'] = row['url']
+					
+					image_list.append(dic)
+
 					dispatcher.utter_message(text=str(row['url']))
 					dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
 					dispatcher.utter_message(text="Bedrooms:"+str(row['bedrooms']))
@@ -109,13 +121,25 @@ class ActionReview_ConceptNet5(Action):
 				else:
 					dispatcher.utter_message(text='Recommendation based on the following review tags:')
 					dispatcher.utter_message(text=tags.rstrip(','))
+					data["data"]=image_list
+
+					dispatcher.utter_message(json_message=data)
 			else:
 				query_string="MATCH (r:Review_Text)-[]-(l:Listing) WHERE "
 				query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
-				query_string+=" RETURN l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
+				query_string+=" RETURN l.name as name, l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
 				query = ""+query_string+""
 				count=0
 				for row in g.run(query, query_string=query_string,k=topK):
+					print(row)
+					dic={}
+					dic["image"] = row['picture_url']
+					dic["title"] = row['name']
+					dic["url"] = row['url']
+					
+					image_list.append(dic)
+
+
 					dispatcher.utter_message(text=str(row['url']))
 					dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
 					dispatcher.utter_message(text="Bedrooms:"+str(row['bedrooms']))
@@ -131,11 +155,15 @@ class ActionReview_ConceptNet5(Action):
 				else:
 					dispatcher.utter_message(text='Recommendation based on the following review tags:')
 					dispatcher.utter_message(text=word)
+					data["data"]=image_list
+
+					dispatcher.utter_message(json_message=data)
 
 		else:
 			dispatcher.utter_message(text="No matched listings")
 
 		return []
+
 class ActionListing_ConceptNet5(Action):
 	def name(self) -> Text:
 		return "action_listing_ConceptNet5"
@@ -165,12 +193,18 @@ class ActionListing_ConceptNet5(Action):
 					query_string+="r.name=~'(?i).*"+item.lower()+".*' or "
 					tags+=item.lower()+","
 				query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
-				query_string+=" RETURN l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
+				query_string+=" RETURN l.name as name, l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
 
 
 				query = ""+query_string+""
 				count=0
 				for row in g.run(query, query_string=query_string,k=topK):
+					print(row)
+					dic={}
+					dic["image"] = row['picture_url']
+					dic["title"] = row['name']
+					dic["url"] = row['url']
+
 					dispatcher.utter_message(text=str(row['url']))
 					dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
 					dispatcher.utter_message(text="Bedrooms:"+str(row['bedrooms']))
@@ -191,10 +225,15 @@ class ActionListing_ConceptNet5(Action):
 				print(word)
 				query_string="MATCH (r:Listing_Text)-[]-(l:Listing) WHERE "
 				query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
-				query_string+=" RETURN l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
+				query_string+=" RETURN l.name as name, l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
 				query = ""+query_string+""
 				count=0
 				for row in g.run(query, query_string=query_string,k=topK):
+					print(row)
+					dic={}
+					dic["image"] = row['picture_url']
+					dic["title"] = row['name']
+					dic["url"] = row['url']
 					dispatcher.utter_message(text=str(row['url']))
 					dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
 					dispatcher.utter_message(text="Bedrooms:"+str(row['bedrooms']))
@@ -204,6 +243,7 @@ class ActionListing_ConceptNet5(Action):
 					dispatcher.utter_message(text="Price:"+str(row['price']))
 					dispatcher.utter_message(image=str(row['picture_url']))
 					dispatcher.utter_message(text="\n***")
+
 					count+=1
 				if count==0:
 					dispatcher.utter_message(text="no great matches! Can you rephrase?")
@@ -214,5 +254,22 @@ class ActionListing_ConceptNet5(Action):
 
 		else:
 			dispatcher.utter_message(text="No matched listings")
+
+		return []
+
+
+class ActionImageCarosaul(Action):
+	def name(self) -> Text:
+		return "action_image_carosaul"
+
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+		userMessage = tracker.latest_message['text']
+
+		data = {'payload': 'cardsCarousel', 'data': [{"image":"https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg"}, {"image":"https://a0.muscache.com/pictures/69979628/fd6a3a80_original.jpg"}, {"image":"https://a0.muscache.com/pictures/02c2da9d-660e-451d-8a51-2f7a17469df7.jpg"}, {"image":"https://a0.muscache.com/pictures/160889/362340f7_original.jpg"}, {"image":"https://a0.muscache.com/pictures/162009/bd6be2f8_original.jpg"}]}
+		dispatcher.utter_message(json_message=data)
+				
 
 		return []

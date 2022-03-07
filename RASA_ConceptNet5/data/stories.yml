@@ -3,7 +3,7 @@ stories:
 - story: ConceptNet5
   steps:
   - intent: greet
-  - action: utter_greet
+  - action: action_image_carosaul
   - intent: mood_great
   - action: utter_happy
   - intent: affirm_neo4j_conceptNet5_review

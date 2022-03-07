@@ -178,6 +178,9 @@ class ActionListing_ConceptNet5(Action):
 
 		prediction = tracker.latest_message['entities'][0]['value']
 		
+		data = {"payload": 'cardsCarousel'}
+		image_list = []
+
 		if prediction:
 			#replace with dynamic value.
 			word=str(prediction)
@@ -204,6 +207,7 @@ class ActionListing_ConceptNet5(Action):
 					dic["image"] = row['picture_url']
 					dic["title"] = row['name']
 					dic["url"] = row['url']
+					image_list.append(dic)
 
 					dispatcher.utter_message(text=str(row['url']))
 					dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
@@ -220,6 +224,7 @@ class ActionListing_ConceptNet5(Action):
 				else:
 					dispatcher.utter_message(text='Recommendation based on the following listing tags:')
 					dispatcher.utter_message(text=tags.rstrip(','))
+					data["data"]=image_list
 			else:
 				print('Recommendation based on the following listing tags:')
 				print(word)
@@ -234,6 +239,8 @@ class ActionListing_ConceptNet5(Action):
 					dic["image"] = row['picture_url']
 					dic["title"] = row['name']
 					dic["url"] = row['url']
+					image_list.append(dic)
+
 					dispatcher.utter_message(text=str(row['url']))
 					dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
 					dispatcher.utter_message(text="Bedrooms:"+str(row['bedrooms']))
@@ -250,8 +257,8 @@ class ActionListing_ConceptNet5(Action):
 				else:
 					dispatcher.utter_message(text='Recommendation based on the following listing tags:')
 					dispatcher.utter_message(text=word)
-
-
+					data["data"]=image_list
+				
 		else:
 			dispatcher.utter_message(text="No matched listings")
 
@@ -268,8 +275,10 @@ class ActionImageCarosaul(Action):
 
 		userMessage = tracker.latest_message['text']
 
-		data = {'payload': 'cardsCarousel', 'data': [{"image":"https://a0.muscache.com/pictures/10272854/8dcca016_original.jpg"}, {"image":"https://a0.muscache.com/pictures/69979628/fd6a3a80_original.jpg"}, {"image":"https://a0.muscache.com/pictures/02c2da9d-660e-451d-8a51-2f7a17469df7.jpg"}, {"image":"https://a0.muscache.com/pictures/160889/362340f7_original.jpg"}, {"image":"https://a0.muscache.com/pictures/162009/bd6be2f8_original.jpg"}]}
-		dispatcher.utter_message(json_message=data)
+		data= [ { "title": "Sick Leave", "description": "Sick leave is time off from work that workers can use to stay home to address their health and safety needs without losing pay." }, { "title": "Earned Leave", "description": "Earned Leaves are the leaves which are earned in the previous year and enjoyed in the preceding years. " }, { "title": "Casual Leave", "description": "Casual Leave are granted for certain unforeseen situation or were you are require to go for one or two days leaves to attend to personal matters and not for vacation." }, { "title": "Flexi Leave", "description": "Flexi leave is an optional leave which one can apply directly in system at lease a week before." } ]
+		message={ "payload": "collapsible", "data": data }
+
+		dispatcher.utter_message(text="You can apply for below leaves",json_message=message)
 				
 
 		return []

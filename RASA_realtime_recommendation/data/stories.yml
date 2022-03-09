@@ -1,0 +1,35 @@
+version: "2.0"
+stories:
+- story: recommendations
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+  - intent: affirm_neo4j_colabf
+  - action: action_listings_details_neo4j_colabf
+  - intent: affirm_neo4j_cbf
+  - action: action_listings_details_neo4j_cbf
+  - intent: query_knowledge_base
+  - action: action_response_query
+  - intent: query_knowledge_base
+  - action: action_response_query
+  - intent: query_knowledge_base
+  - action: action_response_query
+  - intent: query_knowledge_base
+  - action: action_response_query
+  - intent: query_knowledge_base
+  - action: action_response_query
+  - intent: query_knowledge_base
+  - action: action_response_query
+  - intent: query_knowledge_base
+  - action: action_response_query
+  - intent: query_knowledge_base
+  - action: action_response_query
+  - intent: query_knowledge_base
+  - action: action_response_query
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_greet
+

@@ -1,0 +1,261 @@
+version: "2.0"
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+- intent: goodbye
+  examples: |
+    - good bye
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+- intent: affirm_neo4j_colabf
+  examples: |
+    - what are my top suggestions
+    - top recommendations for me
+    - i'm looking for top suggestions for me
+    - ya, can you recommend some nice getaways for me
+- intent: affirm_neo4j_cbf
+  examples: |
+    - can you recommend places with amenities in previous bookings?
+    - get me some recommendations with required amenities
+    - looking for places that match my interests
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+- intent: stop
+  examples: |
+    - I would like to search from the beginning
+    - I would like to start a fresh search
+- intent: query_knowledge_base
+  examples: |
+    - What nice [listing](object_type) is there?
+    - Is there any good [listing](object_type)?
+    - List me some [listing](object_type)
+    - List me some [city](object_type)
+    - List me some [state](object_type)
+    - List me some [country](object_type)
+    - List me some [amenity](object_type)
+    - List me some [property_type](object_type)
+    - List me some [room_type](object_type)
+    - Suggest some beautiful [listing](object_type)
+    - List me some [2.0](beds) [listing](object_type)
+    - List me some [listings](object_type) with [2.0](bedrooms),[3.0](accomodates) located in [Amsterdam](City)
+- intent: listings_req
+  examples: |
+    - find me a place with
+- intent: listings_pic
+  examples: |
+    - show me the picture of the listing with
+- intent: listings_details
+  examples: |
+    - 2818
+- intent: listing_review_details
+  examples: |
+    - get me the details of the listing with
+- intent: book
+  examples: |
+    - i would like to book
+    - can i make a booking
+- intent: cancel
+  examples: |
+    - i would like to cancel booking
+    - can i cancel the booking
+- intent: faq
+  examples: |
+    - Need help about www.airbnb.com#site content
+    - Need help about ?logo=1
+    - Need help about home
+    - Need help about extenuating circumstances policy and the coronavirus covid19
+    - Need help about extenuating circumstances policy
+    - Need help about change or reset your password
+    - Need help about creating an account
+    - Need help about booking a trip what to do if youre new
+    - Need help about what is airbnb and how does it work
+    - Need help about find the cancellation policy for your stay
+    - Need help about an introduction to airbnb experiences
+    - Need help about booking and traveling
+    - Need help about hosting stays
+    - Need help about hosting experiences
+    - Need help about managing company travel
+    - Need help about getting started
+    - Need help about how airbnb works
+    - Need help about our community policies
+    - Need help about partnerships
+    - Need help about managing your account
+    - Need help about id and verification
+    - Need help about account security
+    - Need help about reviews
+    - Need help about safety concerns
+    - Need help about safety tips and guidelines
+    - Need help about reporting issues
+    - Need help about government travel restrictions and advisories
+    - Need help about terms of service
+    - Need help about payments terms of service
+    - Need help about privacy policy
+    - Need help about privacy policy supplements
+    - Need help about member policies and standards
+    - Need help about search?q=refunds
+    - Need help about search?q=reviews
+    - Need help about search?q=payments
+    - Need help about search?q=cancellations
+    - Need help about login?redirect_url=inbox
+    - Need help about login?redirect_url=resolutions
+    - Need help about contact us
+    - Need help about www.airbnb.comtel:+1 844 234 2500
+    - Need help about feedback
+    - Need help about home?from=footer
+    - Need help about trust
+    - Need help about covidsafety
+    - Need help about accessibility
+    - Need help about neighbors
+    - Need help about www.airbnb.org?locale=en
+    - Need help about refugees
+    - Need help about diversity
+    - Need help about against discrimination
+    - Need help about homes?from_footer=1
+    - Need help about aircover
+    - Need help about resources
+    - Need help about community?s=footer
+    - Need help about responsible hosting
+    - Need help about news
+    - Need help about 2021 winter
+    - Need help about what makes airbnb airbnb
+    - Need help about careers
+    - Need help about investors.airbnb.com
+    - Need help about luxury
+    - Need help about privacy_policy
+    - Need help about terms
+    - Need help about v2
+    - Need help about airbnb
+    - Need help about all the ways to host on airbnb
+    - Need help about creating a listing
+    - Need help about create a unique airbnb experience
+    - Need help about hosting airbnb adventures
+    - Need help about update the airbnb app
+    - Need help about contact info and feedback
+    - Need help about the basics
+    - Need help about safety
+    - Need help about privacy
+    - Need help about antidiscrimination and accessibility
+    - Need help about account authenticity
+    - Need help about content and reviews
+    - Need help about community expectations
+    - Need help about partner info
+    - Need help about animal welfare
+    - Need help about discovering the world of hosting 2
+- synonym: '1'
+  examples: |
+    - First
+    - first
+    - First listing
+- synonym: '2'
+  examples: |
+    - the second
+    - Second listing
+- synonym: '3'
+  examples: |
+    - The third
+    - The third listing
+- synonym: LAST
+  examples: |
+    - the last one
+    - The last one
+    - Last
+- synonym: birthday
+  examples: |
+    - Birthday
+- synonym: user
+  examples: |
+    - USer
+    - Who
+    - Which
+    - Which user
+- synonym: city
+  examples: |
+    - City
+- synonym: state
+  examples: |
+    - State
+- synonym: listing
+  examples: |
+    - listings
+- synonym: '4'
+  examples: |
+    - the fourth
+    - Fourth listing
+- synonym: Country
+  examples: |
+    - location
+    - neighborhood

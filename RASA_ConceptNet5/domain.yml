@@ -169,14 +169,27 @@ slots:
 
 responses:
   utter_greet:
-  - text: Hey! How are you?
+  - text: Hey! How are you? Here is a demo of sample interaction with me,
+    attachment: { "type":"video", "payload":{ "src": "https://youtube.com/embed/rpEfkagwHGE" } }
+
   utter_cheer_up:
   - image: https://i.imgur.com/nGF1K8f.jpg
     text: Something to cheer you up!
   utter_did_that_help:
   - text: Did that help you?
   utter_happy:
-  - text: Great! How can i help you?
+  - text: Awesome! How can i help you? I can do Real-time recommendations using,
+    buttons:
+    - title: "Entity query"
+      payload: "Entity query"
+    - title: "Collaborative filtering"
+      payload: "Collaborative filtering"
+    - title: "Content-based filtering(Amenities)"
+      payload: "Content-based filtering(Amenties)"
+    - title: "Advanced Search(NLP) using ConceptNet5 (Listing)"
+      payload: "Advanced Search(NLP) using ConceptNet5 (Listing)"
+    - title: "Advanced Search(NLP) using ConceptNet5 (Review)"
+      payload: "Advanced Search(NLP) using ConceptNet5 (Review)"
   utter_goodbye:
   - text: Bye
   utter_iamabot:

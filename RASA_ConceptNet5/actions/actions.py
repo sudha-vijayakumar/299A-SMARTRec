@@ -225,6 +225,7 @@ class ActionListing_ConceptNet5(Action):
 					dispatcher.utter_message(text='Recommendation based on the following listing tags:')
 					dispatcher.utter_message(text=tags.rstrip(','))
 					data["data"]=image_list
+					dispatcher.utter_message(json_message=data)
 			else:
 				print('Recommendation based on the following listing tags:')
 				print(word)
@@ -258,6 +259,7 @@ class ActionListing_ConceptNet5(Action):
 					dispatcher.utter_message(text='Recommendation based on the following listing tags:')
 					dispatcher.utter_message(text=word)
 					data["data"]=image_list
+					dispatcher.utter_message(json_message=data)
 				
 		else:
 			dispatcher.utter_message(text="No matched listings")

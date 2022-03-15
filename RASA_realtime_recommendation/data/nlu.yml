@@ -42,6 +42,14 @@ nlu:
     - top recommendations for me
     - i'm looking for top suggestions for me
     - ya, can you recommend some nice getaways for me
+
+- intent: affirm_neo4j_colabf_exclude
+  examples: |
+    - I am looking for some other suggestions
+    - Get me different recommendations 
+    - looking for better recommendations
+    - ya, can you recommend some other nice getaways for me
+
 - intent: affirm_neo4j_cbf
   examples: |
     - can you recommend places with amenities in previous bookings?

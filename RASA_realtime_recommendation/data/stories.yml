@@ -8,6 +8,8 @@ stories:
   - action: utter_happy
   - intent: affirm_neo4j_colabf
   - action: action_listings_details_neo4j_colabf
+  - intent: affirm_neo4j_colabf_exclude
+  - action: action_listings_details_neo4j_colabf_exclude
   - intent: affirm_neo4j_cbf
   - action: action_listings_details_neo4j_cbf
   - intent: query_knowledge_base

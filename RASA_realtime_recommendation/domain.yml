@@ -13,6 +13,8 @@ intents:
     use_entities: true
 - affirm_neo4j_colabf:
     use_entities: true
+- affirm_neo4j_colabf_exclude:
+    use_entities: true
 - affirm_neo4j_cbf:
     use_entities: true
 - deny:
@@ -164,7 +166,7 @@ slots:
     influence_conversation: false
 responses:
   utter_greet:
-  - text: Hey! How are you? Here is a demo of sample interaction with me,
+  - text: Hey user 10952! How are you? Here is a demo of sample interaction with me,
     attachment: { "type":"video", "payload":{ "src": "https://youtube.com/embed/rpEfkagwHGE" } }
 
   utter_cheer_up:
@@ -208,6 +210,7 @@ responses:
 actions:
 - action_listings_details_neo4j_colabf
 - action_listings_details_neo4j_cbf
+- action_listings_details_neo4j_colabf_exclude
 - action_response_query
 - utter_ask_rephrase
 - utter_default

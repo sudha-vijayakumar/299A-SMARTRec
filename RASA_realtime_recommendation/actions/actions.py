@@ -25,6 +25,7 @@ import gensim
 from gensim.models import Word2Vec 
 from gensim.parsing.preprocessing import preprocess_documents
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+import time 
 
 import json
 import torch
@@ -59,6 +60,7 @@ print("Connected to Neo4j")
 
 from collections import defaultdict
 
+# neighbours_ids = []
 def realTimeRecommendation(topK):		
 
 	query = """
@@ -103,6 +105,13 @@ class ActionlistingsDetails_Neo4jColabF(Action):
 			
 		print(userMessage)
 
+		# neighbours_ids = realTimeRecommendation(20)
+
+		botResponse = f"Gettings similar real-time recommendations..."
+		dispatcher.utter_message(text=botResponse)
+
+	
+
 		query = """
 							// Get top n recommendations for user from the selected neighbours
 							MATCH (u1:User),
@@ -121,6 +130,81 @@ class ActionlistingsDetails_Neo4jColabF(Action):
 		botResponse = f"Here are the top recommendation for you:"
 		dispatcher.utter_message(text=botResponse)
 		for row in g.run(query, uid=user_id, neighbours=neighbours_ids, k=topK):
+			recos[row[0]] = row[1]
+
+		print(recos)
+
+		data = {"payload": 'cardsCarousel'}
+		image_list = []
+		count=0
+		for row in recos[row[0]]:
+			dic={}
+			dic["image"] = str(row[1])
+			dic['title'] = str(row[0])
+			dic['url'] = 'https://www.airbnb.com/rooms/'+str(row[0])
+					
+			image_list.append(dic)
+
+			dispatcher.utter_message(text='https://www.airbnb.com/rooms/'+str(row[0]))
+			dispatcher.utter_message(text="Accomodates:"+str(row[2]))
+			dispatcher.utter_message(text="Bedrooms:"+str(row[4]))
+			dispatcher.utter_message(text="Bathrooms:"+str(row[3]))
+			dispatcher.utter_message(text="Beds:"+str(row[5]))
+			dispatcher.utter_message(text="Host_Verified:"+str(row[6]))
+			dispatcher.utter_message(text="Score:"+str(row[7]))
+			dispatcher.utter_message(text="Price:"+str(row[8]))
+			dispatcher.utter_message(image=str(row[1]))
+			dispatcher.utter_message(text="\n***")
+			count+=1
+
+		if count==0:
+			dispatcher.utter_message(text="no great matches! Can you rephrase?")
+		else:
+			data["data"]=image_list
+			dispatcher.utter_message(json_message=data)
+
+		return []
+
+## Recommendations based on real-time collaborative filtering.
+class ActionlistingsDetails_Neo4jColabFExclude(Action):
+	def name(self) -> Text:
+		return "action_listings_details_neo4j_colabf_exclude"
+
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+		userMessage = tracker.latest_message['text']
+			
+		print(userMessage)
+
+		# neighbours_ids = realTimeRecommendation(20)
+
+		botResponse = f"Gettings similar real-time recommendations..."
+		dispatcher.utter_message(text=botResponse)
+
+		query = """
+							// Get top n recommendations for user from the selected neighbours
+							MATCH (u1:User),
+								(neighbour:User)-[:RATED]->(p:Listing)        // get all listings rated by neighbour
+							WHERE u1.name = $uid
+							AND neighbour.id in $neighbours
+							AND not (u1)-[:RATED]->(p)                        // which u1 has not already bought
+							
+							WITH u1, p, COUNT(DISTINCT neighbour) as cnt                                // count times rated by neighbours
+							ORDER BY u1.name, cnt DESC                                               // and sort by count desc
+							RETURN u1.name as user, COLLECT([p.name,p.picture_url,p.accomodates,p.bathrooms,p.bedrooms,p.beds,p.host_identity_verified,p.review_scores_rating,p.price,cnt])[$k..$n] as recos  
+							"""
+
+		recos = {}
+
+		botResponse = f"Here are the top recommendation for you:"
+		dispatcher.utter_message(text=botResponse)
+
+		topK = 6	
+		topN = topK + 5
+
+		for row in g.run(query, uid=user_id, neighbours=neighbours_ids, k=topK,n=topN):
 			recos[row[0]] = row[1]
 
 		print(recos)
@@ -195,7 +279,7 @@ class ActionlistingsDetails_Neo4jCBF(Action):
 			dic["image"] = str(row['url'])
 			dic['title'] = str(row['Recommendate'])
 			dic['url'] = 'https://www.airbnb.com/rooms/'+str(row['Recommendate'])
-			
+			image_list.append(dic)
 			dispatcher.utter_message(text='https://www.airbnb.com/rooms/'+str(row['Recommendate']))
 			dispatcher.utter_message(text="Amenities:\n")
 			dispatcher.utter_message(text=str(row['UserListingAmenities']))
@@ -214,6 +298,8 @@ class ActionlistingsDetails_Neo4jCBF(Action):
 			dispatcher.utter_message(text="no great matches! Can you rephrase?")
 		else:
 			data["data"]=image_list
+			print(image_list)
+			print(data)
 			dispatcher.utter_message(json_message=data)
 
 		return []

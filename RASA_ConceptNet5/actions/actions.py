@@ -82,83 +82,51 @@ class ActionReview_ConceptNet5(Action):
 			word=str(prediction)
 			word=word.lower()
 
-			if word in mem_cache_conceptNet5:
-				collection = mem_cache_conceptNet5[word]
+			# if word in mem_cache_conceptNet5:
+			# 	collection = mem_cache_conceptNet5[word]
+			print("fetching concepts related to:",word)
+			collection = getConceptTags(word, 10)
+			query_string=""
 
-
-				query_string="MATCH (r:Review_Text)-[]-(l:Listing) WHERE "
-				tags=""
-				for item in collection:
-					query_string+="r.name=~'(?i).*"+item.lower()+".*' or "
-					tags+=item.lower()+","
-				query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
-				query_string+=" RETURN l.name as name, l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
+			query_string="MATCH (r:Review_Text)-[]-(l:Listing) WHERE "
+			tags=""
+			for item in collection:
+				query_string+="r.name=~'(?i).*"+item.lower()+".*' or "
+				tags+=item.lower()+","
+			query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
+			query_string+=" RETURN l.name as name, l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
 				
-				query = ""+query_string+""
-				count=0
-				for row in g.run(query, query_string=query_string,k=topK):
-					print(row)
-					dic={}
-					dic["image"] = row['picture_url']
-					dic['title'] = row['name']
-					dic['url'] = row['url']
+			query = ""+query_string+""
+			count=0
+			for row in g.run(query, query_string=query_string,k=topK):
+				print(row)
+				dic={}
+				dic["image"] = row['picture_url']
+				dic['title'] = row['name']
+				dic['url'] = row['url']
 					
-					image_list.append(dic)
+				image_list.append(dic)
 
-					dispatcher.utter_message(text=str(row['url']))
-					dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
-					dispatcher.utter_message(text="Bedrooms:"+str(row['bedrooms']))
-					dispatcher.utter_message(text="Bathrooms:"+str(row['bathrooms']))
-					dispatcher.utter_message(text="Beds:"+str(row['beds']))
-					dispatcher.utter_message(text="Host_Verified:"+str(row['verified']))
-					dispatcher.utter_message(text="Price:"+str(row['price']))
-					dispatcher.utter_message(image=str(row['picture_url']))
-					dispatcher.utter_message(text="\n***")
-					count+=1
+				dispatcher.utter_message(text=str(row['url']))
+				dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
+				dispatcher.utter_message(text="Bedrooms:"+str(row['bedrooms']))
+				dispatcher.utter_message(text="Bathrooms:"+str(row['bathrooms']))
+				dispatcher.utter_message(text="Beds:"+str(row['beds']))
+				dispatcher.utter_message(text="Host_Verified:"+str(row['verified']))
+				dispatcher.utter_message(text="Price:"+str(row['price']))
+				dispatcher.utter_message(image=str(row['picture_url']))
+				dispatcher.utter_message(text="\n***")
+				count+=1
 				
-				if count==0:
-					dispatcher.utter_message(text="no great matches! Can you rephrase?")
-				else:
-					dispatcher.utter_message(text='Recommendation based on the following review tags:')
-					dispatcher.utter_message(text=tags.rstrip(','))
-					data["data"]=image_list
-
-					dispatcher.utter_message(json_message=data)
+			if count==0:
+				dispatcher.utter_message(text="no great matches! Can you rephrase?")
 			else:
-				query_string="MATCH (r:Review_Text)-[]-(l:Listing) WHERE "
-				query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
-				query_string+=" RETURN l.name as name, l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
-				query = ""+query_string+""
-				count=0
-				for row in g.run(query, query_string=query_string,k=topK):
-					print(row)
-					dic={}
-					dic["image"] = row['picture_url']
-					dic["title"] = row['name']
-					dic["url"] = row['url']
-					
-					image_list.append(dic)
+				dispatcher.utter_message(text='Recommendation based on the following 10 most similar ConceptNet5(common-sense network) tags:')
+				dispatcher.utter_message(text=tags.rstrip(','))
+				data["data"]=image_list
 
-
-					dispatcher.utter_message(text=str(row['url']))
-					dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
-					dispatcher.utter_message(text="Bedrooms:"+str(row['bedrooms']))
-					dispatcher.utter_message(text="Bathrooms:"+str(row['bathrooms']))
-					dispatcher.utter_message(text="Beds:"+str(row['beds']))
-					dispatcher.utter_message(text="Host_Verified:"+str(row['verified']))
-					dispatcher.utter_message(text="Price:"+str(row['price']))
-					dispatcher.utter_message(image=str(row['picture_url']))
-					dispatcher.utter_message(text="\n***")
-					count+=1
-				if count==0:
-					dispatcher.utter_message(text="no great matches! Can you rephrase?")
-				else:
-					dispatcher.utter_message(text='Recommendation based on the following review tags:')
-					dispatcher.utter_message(text=word)
-					data["data"]=image_list
-
-					dispatcher.utter_message(json_message=data)
-
+				dispatcher.utter_message(json_message=data)
+			
 		else:
 			dispatcher.utter_message(text="No matched listings")
 
@@ -176,91 +144,64 @@ class ActionListing_ConceptNet5(Action):
 		
 		print(userMessage)
 
-		prediction = tracker.latest_message['entities'][0]['value']
-		
 		data = {"payload": 'cardsCarousel'}
 		image_list = []
-
+			
+		#replace with dynamic value.
+		prediction = tracker.latest_message['entities'][0]['value']
+		
 		if prediction:
 			#replace with dynamic value.
 			word=str(prediction)
 			word=word.lower()
-			
-			if word in mem_cache_conceptNet5:
-				collection = mem_cache_conceptNet5[word]
+
+			# if word in mem_cache_conceptNet5:
+			# 	collection = mem_cache_conceptNet5[word]
+			print("fetching concepts related to:",word)
+			collection = getConceptTags(word, 10)
+			query_string=""
+
+			query_string="MATCH (r:Listing_Text)-[]-(l:Listing) WHERE "
+			tags=""
+			for item in collection:
+				query_string+="r.name=~'(?i).*"+item.lower()+".*' or "
+				tags+=item.lower()+","
+			query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
+			query_string+=" RETURN l.name as name, l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
 				
-				## query string
-				tags=""
-				query_string="MATCH (r:Listing_Text)-[]-(l:Listing) WHERE "
-				for item in collection:
-					query_string+="r.name=~'(?i).*"+item.lower()+".*' or "
-					tags+=item.lower()+","
-				query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
-				query_string+=" RETURN l.name as name, l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
+			query = ""+query_string+""
+			count=0
+			for row in g.run(query, query_string=query_string,k=topK):
+				print(row)
+				dic={}
+				dic["image"] = row['picture_url']
+				dic['title'] = row['name']
+				dic['url'] = row['url']
+					
+				image_list.append(dic)
 
-
-				query = ""+query_string+""
-				count=0
-				for row in g.run(query, query_string=query_string,k=topK):
-					print(row)
-					dic={}
-					dic["image"] = row['picture_url']
-					dic["title"] = row['name']
-					dic["url"] = row['url']
-					image_list.append(dic)
-
-					dispatcher.utter_message(text=str(row['url']))
-					dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
-					dispatcher.utter_message(text="Bedrooms:"+str(row['bedrooms']))
-					dispatcher.utter_message(text="Bathrooms:"+str(row['bathrooms']))
-					dispatcher.utter_message(text="Beds:"+str(row['beds']))
-					dispatcher.utter_message(text="Host_Verified:"+str(row['verified']))
-					dispatcher.utter_message(text="Price:"+str(row['price']))
-					dispatcher.utter_message(image=str(row['picture_url']))
-					dispatcher.utter_message(text="\n***")
-					count+=1
-				if count==0:
-					dispatcher.utter_message(text="no great matches! Can you rephrase?")
-				else:
-					dispatcher.utter_message(text='Recommendation based on the following listing tags:')
-					dispatcher.utter_message(text=tags.rstrip(','))
-					data["data"]=image_list
-					dispatcher.utter_message(json_message=data)
+				dispatcher.utter_message(text=str(row['url']))
+				dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
+				dispatcher.utter_message(text="Bedrooms:"+str(row['bedrooms']))
+				dispatcher.utter_message(text="Bathrooms:"+str(row['bathrooms']))
+				dispatcher.utter_message(text="Beds:"+str(row['beds']))
+				dispatcher.utter_message(text="Host_Verified:"+str(row['verified']))
+				dispatcher.utter_message(text="Price:"+str(row['price']))
+				dispatcher.utter_message(image=str(row['picture_url']))
+				dispatcher.utter_message(text="\n***")
+				count+=1
+				
+			if count==0:
+				dispatcher.utter_message(text="no great matches! Can you rephrase?")
 			else:
-				print('Recommendation based on the following listing tags:')
-				print(word)
-				query_string="MATCH (r:Listing_Text)-[]-(l:Listing) WHERE "
-				query_string+=" r.name=~'(?i).*"+word.lower()+".*'"
-				query_string+=" RETURN l.name as name, l.url As url,l.picture_url As picture_url,l.accomodates as accomodates,l.bathrooms as bathrooms,l.bedrooms as bedrooms,l.beds as beds,l.host_identity_verified as verified,l.review_scores_rating as review_scores,l.price as price LIMIT "+str(topK)+";"
-				query = ""+query_string+""
-				count=0
-				for row in g.run(query, query_string=query_string,k=topK):
-					print(row)
-					dic={}
-					dic["image"] = row['picture_url']
-					dic["title"] = row['name']
-					dic["url"] = row['url']
-					image_list.append(dic)
-
-					dispatcher.utter_message(text=str(row['url']))
-					dispatcher.utter_message(text="Accomodates:"+str(row['accomodates']))
-					dispatcher.utter_message(text="Bedrooms:"+str(row['bedrooms']))
-					dispatcher.utter_message(text="Bathrooms:"+str(row['bathrooms']))
-					dispatcher.utter_message(text="Beds:"+str(row['beds']))
-					dispatcher.utter_message(text="Host_Verified:"+str(row['verified']))
-					dispatcher.utter_message(text="Price:"+str(row['price']))
-					dispatcher.utter_message(image=str(row['picture_url']))
-					dispatcher.utter_message(text="\n***")
-
-					count+=1
-				if count==0:
-					dispatcher.utter_message(text="no great matches! Can you rephrase?")
-				else:
-					dispatcher.utter_message(text='Recommendation based on the following listing tags:')
-					dispatcher.utter_message(text=word)
-					data["data"]=image_list
-					dispatcher.utter_message(json_message=data)
 				
+				dispatcher.utter_message(text='Recommendation based on the following 10 most similar ConceptNet5(common-sense network) tags:')
+				dispatcher.utter_message(text=tags.rstrip(','))
+				data["data"]=image_list
+
+				dispatcher.utter_message(json_message=data)
+			
+
 		else:
 			dispatcher.utter_message(text="No matched listings")
 

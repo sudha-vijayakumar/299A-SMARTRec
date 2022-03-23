@@ -1,11 +1,9 @@
 # 299A-SMARTREC_A-SMART-Conversational-Recommendation-System-using-Semantic-Knowledge-Graph
 
-**DEMO**
-
-## FRONT-END
+## FRONT-END DEMO
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/1_h9_2ar29I/0.jpg)](https://www.youtube.com/watch?v=1_h9_2ar29I)
 
-## BACK-END
+## BACK-END DEMO
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/33FOCLEwvbM/0.jpg)](https://youtu.be/33FOCLEwvbM)
 
 # Solution Architecture

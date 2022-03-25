@@ -36,8 +36,10 @@ intents:
 - query_knowledge_base:
     use_entities: []
 - affirm_neo4j_conceptNet5_review:
-    use_entities: []
+    use_entities: true
 - affirm_neo4j_conceptNet5_listing:
+    use_entities: true
+- affirm_FAQ:
     use_entities: []
 entities:
 - object_type

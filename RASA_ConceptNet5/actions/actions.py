@@ -29,6 +29,7 @@ from rasa_sdk.executor import CollectingDispatcher
 
 from py2neo import Graph
 from collections import defaultdict
+import time
 
 # sentence embedding selection.
 # sentence_transformer_select=True
@@ -75,8 +76,13 @@ class ActionReview_ConceptNet5(Action):
 		image_list = []
 			
 		#replace with dynamic value.
-		prediction = tracker.latest_message['entities'][0]['value']
-		
+		start_time = time.time()
+
+		try:
+			prediction = tracker.latest_message['entities'][0]['value']
+		except:
+			prediction = ""
+
 		if prediction:
 			#replace with dynamic value.
 			word=str(prediction)
@@ -85,7 +91,7 @@ class ActionReview_ConceptNet5(Action):
 			# if word in mem_cache_conceptNet5:
 			# 	collection = mem_cache_conceptNet5[word]
 			print("fetching concepts related to:",word)
-			collection = getConceptTags(word, 10)
+			collection = getConceptTags(word, 25)
 			query_string=""
 
 			query_string="MATCH (r:Review_Text)-[]-(l:Listing) WHERE "
@@ -121,11 +127,14 @@ class ActionReview_ConceptNet5(Action):
 			if count==0:
 				dispatcher.utter_message(text="no great matches! Can you rephrase?")
 			else:
-				dispatcher.utter_message(text='Recommendation based on the following 10 most similar ConceptNet5(common-sense network) tags:')
+				dispatcher.utter_message(text='Recommendation based on the following similar ConceptNet5(common-sense network) tags:')
 				dispatcher.utter_message(text=tags.rstrip(','))
 				data["data"]=image_list
-
+				res_time="response time:"+str(time.time() - start_time)+" seconds"
+				dispatcher.utter_message(res_time)
 				dispatcher.utter_message(json_message=data)
+				
+
 			
 		else:
 			dispatcher.utter_message(text="No matched listings")
@@ -148,7 +157,12 @@ class ActionListing_ConceptNet5(Action):
 		image_list = []
 			
 		#replace with dynamic value.
-		prediction = tracker.latest_message['entities'][0]['value']
+		start_time = time.time()
+
+		try:
+			prediction = tracker.latest_message['entities'][0]['value']
+		except:
+			prediction = ""
 		
 		if prediction:
 			#replace with dynamic value.
@@ -195,10 +209,11 @@ class ActionListing_ConceptNet5(Action):
 				dispatcher.utter_message(text="no great matches! Can you rephrase?")
 			else:
 				
-				dispatcher.utter_message(text='Recommendation based on the following 10 most similar ConceptNet5(common-sense network) tags:')
+				dispatcher.utter_message(text='Recommendation based on the following similar ConceptNet5(common-sense network) tags:')
 				dispatcher.utter_message(text=tags.rstrip(','))
 				data["data"]=image_list
-
+				res_time="response time:"+str(time.time() - start_time)+" seconds"
+				dispatcher.utter_message(res_time)
 				dispatcher.utter_message(json_message=data)
 			
 

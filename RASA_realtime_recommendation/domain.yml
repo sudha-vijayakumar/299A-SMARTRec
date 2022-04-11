@@ -215,5 +215,6 @@ actions:
 - utter_ask_rephrase
 - utter_default
 - action_deactivate_loop
+- action_FAQ
 forms: {}
 e2e_actions: []

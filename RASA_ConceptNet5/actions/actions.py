@@ -31,17 +31,13 @@ from py2neo import Graph
 from collections import defaultdict
 import time
 
-# sentence embedding selection.
-# sentence_transformer_select=True
-# pretrained_model='stsb-roberta-large' 
-# score_threshold = 0.60  # This confidence scores can be adjusted based on your need!!
+
 topK=5
 
 # Load mem_cache features.
-
-mem_cache_conceptNet5={}
-with open('mem_cache_conceptNet5.json') as json_file:
-    mem_cache_conceptNet5 = json.load(json_file)
+# mem_cache_conceptNet5={}
+# with open('mem_cache_conceptNet5.json') as json_file:
+#     mem_cache_conceptNet5 = json.load(json_file)
 
 # use neo4j for real-time recommendations.
 g = Graph("bolt://localhost:7687/neo4j", password = "test")
@@ -51,12 +47,25 @@ print("Connected to Neo4j")
 #used to retrieve data from conceptNet5 in real-time.
 def getConceptTags(word,topK):		
 	collection = []
-	query = """
-				CALL ga.nlp.ml.word2vec.nn($wid, $k, 'en-ConceptNet5') YIELD word, distance RETURN word AS list;
-			"""
-	for row in g.run(query, wid=word, k=topK):
+	
+	try:
+		words = word.split(' ')
+		for w in words:
+
+			query = """
+						CALL ga.nlp.ml.word2vec.nn($wid, $k, 'en-ConceptNet5') YIELD word, distance RETURN word AS list;
+					"""
+			for row in g.run(query, wid=w, k=topK):
+				processed=re.sub('[^a-zA-Z0-9]+', ' ', row[0])
+				collection.append(processed)
+	except:
+		query = """
+						CALL ga.nlp.ml.word2vec.nn($wid, $k, 'en-ConceptNet5') YIELD word, distance RETURN word AS list;
+					"""
+		for row in g.run(query, wid=word, k=topK):
 			processed=re.sub('[^a-zA-Z0-9]+', ' ', row[0])
 			collection.append(processed)
+
 	return collection
 
 ## Recommendations based on real-time conceptnet + review text fusion.

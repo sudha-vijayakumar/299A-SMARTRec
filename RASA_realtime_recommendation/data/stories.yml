@@ -12,6 +12,8 @@ stories:
   - action: action_listings_details_neo4j_colabf_exclude
   - intent: affirm_neo4j_cbf
   - action: action_listings_details_neo4j_cbf
+  - intent: faq
+  - action: action_FAQ
   - intent: query_knowledge_base
   - action: action_response_query
   - intent: query_knowledge_base

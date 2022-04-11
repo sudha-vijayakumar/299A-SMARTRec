@@ -1,5 +1,8 @@
 version: "2.0"
 nlu:
+- regex: wordid
+  examples: |
+    - \b[a-z]\b
 - intent: greet
   examples: |
     - hey
@@ -42,14 +45,12 @@ nlu:
     - top recommendations for me
     - i'm looking for top suggestions for me
     - ya, can you recommend some nice getaways for me
-
 - intent: affirm_neo4j_colabf_exclude
   examples: |
     - I am looking for some other suggestions
     - Get me different recommendations 
     - looking for better recommendations
     - ya, can you recommend some other nice getaways for me
-
 - intent: affirm_neo4j_cbf
   examples: |
     - can you recommend places with amenities in previous bookings?
@@ -142,87 +143,85 @@ nlu:
     - can i cancel the booking
 - intent: faq
   examples: |
-    - Need help about www.airbnb.com#site content
-    - Need help about ?logo=1
-    - Need help about home
-    - Need help about extenuating circumstances policy and the coronavirus covid19
-    - Need help about extenuating circumstances policy
-    - Need help about change or reset your password
-    - Need help about creating an account
-    - Need help about booking a trip what to do if youre new
-    - Need help about what is airbnb and how does it work
-    - Need help about find the cancellation policy for your stay
-    - Need help about an introduction to airbnb experiences
-    - Need help about booking and traveling
-    - Need help about hosting stays
-    - Need help about hosting experiences
-    - Need help about managing company travel
-    - Need help about getting started
-    - Need help about how airbnb works
-    - Need help about our community policies
-    - Need help about partnerships
-    - Need help about managing your account
-    - Need help about id and verification
-    - Need help about account security
-    - Need help about reviews
-    - Need help about safety concerns
-    - Need help about safety tips and guidelines
-    - Need help about reporting issues
-    - Need help about government travel restrictions and advisories
-    - Need help about terms of service
-    - Need help about payments terms of service
-    - Need help about privacy policy
-    - Need help about privacy policy supplements
-    - Need help about member policies and standards
-    - Need help about search?q=refunds
-    - Need help about search?q=reviews
-    - Need help about search?q=payments
-    - Need help about search?q=cancellations
-    - Need help about login?redirect_url=inbox
-    - Need help about login?redirect_url=resolutions
-    - Need help about contact us
-    - Need help about www.airbnb.comtel:+1 844 234 2500
-    - Need help about feedback
-    - Need help about home?from=footer
-    - Need help about trust
-    - Need help about covidsafety
-    - Need help about accessibility
-    - Need help about neighbors
-    - Need help about www.airbnb.org?locale=en
-    - Need help about refugees
-    - Need help about diversity
-    - Need help about against discrimination
-    - Need help about homes?from_footer=1
-    - Need help about aircover
-    - Need help about resources
-    - Need help about community?s=footer
-    - Need help about responsible hosting
-    - Need help about news
-    - Need help about 2021 winter
-    - Need help about what makes airbnb airbnb
-    - Need help about careers
-    - Need help about investors.airbnb.com
-    - Need help about luxury
-    - Need help about privacy_policy
-    - Need help about terms
-    - Need help about v2
-    - Need help about airbnb
-    - Need help about all the ways to host on airbnb
-    - Need help about creating a listing
-    - Need help about create a unique airbnb experience
-    - Need help about hosting airbnb adventures
-    - Need help about update the airbnb app
-    - Need help about contact info and feedback
-    - Need help about the basics
-    - Need help about safety
-    - Need help about privacy
-    - Need help about antidiscrimination and accessibility
-    - Need help about account authenticity
-    - Need help about content and reviews
-    - Need help about community expectations
-    - Need help about partner info
-    - Need help about animal welfare
-    - Need help about discovering the world of hosting 2
+    - Please get me help about [content](wordid)
+    - Please get me help about [home](wordid)
+    - Please get me help about [extenuating circumstances policy and the coronavirus covid19](wordid)
+    - Please get me help about [extenuating circumstances policy](wordid)
+    - Please get me help about [change or reset your password](wordid)
+    - Please get me help about [creating an account](wordid)
+    - Please get me help about [booking a trip what to do if youre new](wordid)
+    - Please get me help about [what is airbnb and how does it work](wordid)
+    - Please get me help about [find the cancellation policy for your stay](wordid)
+    - Please get me help about [an introduction to airbnb experiences](wordid)
+    - Please get me help about [booking and traveling](wordid)
+    - Please get me help about [hosting stays](wordid)
+    - Please get me help about [hosting experiences](wordid)
+    - Please get me help about [managing company travel](wordid)
+    - Please get me help about [getting started](wordid)
+    - Please get me help about [how airbnb works](wordid)
+    - Please get me help about [our community policies](wordid)
+    - Please get me help about [partnerships](wordid)
+    - Please get me help about [managing your account](wordid)
+    - Please get me help about [id and verification](wordid)
+    - Please get me help about [account security](wordid)
+    - Please get me help about [reviews](wordid)
+    - Please get me help about [safety concerns](wordid)
+    - Please get me help about [safety tips and guidelines](wordid)
+    - Please get me help about [reporting issues](wordid)
+    - Please get me help about [government travel restrictions and advisories](wordid)
+    - Please get me help about [terms of service](wordid)
+    - Please get me help about [payments terms of service](wordid)
+    - Please get me help about [privacy policy](wordid)
+    - Please get me help about [privacy policy supplements](wordid)
+    - Please get me help about [member policies and standards](wordid)
+    - Please get me help about [refunds](wordid)
+    - Please get me help about [reviews](wordid)
+    - Please get me help about [payments](wordid)
+    - Please get me help about [cancellations](wordid)
+    - Please get me help about [inbox](wordid)
+    - Please get me help about [resolutions](wordid)
+    - Please get me help about [contact us](wordid)
+    - Please get me help about [feedback](wordid)
+    - Please get me help about [home](wordid)
+    - Please get me help about [trust](wordid)
+    - Please get me help about [covidsafety](wordid)
+    - Please get me help about [accessibility](wordid)
+    - Please get me help about [neighbors](wordid)
+    - Please get me help about [www.airbnb.org?locale=en](wordid)
+    - Please get me help about [refugees](wordid)
+    - Please get me help about [diversity](wordid)
+    - Please get me help about [against discrimination](wordid)
+    - Please get me help about [homes?from_footer=1](wordid)
+    - Please get me help about [aircover](wordid)
+    - Please get me help about [resources](wordid)
+    - Please get me help about [community?s=footer](wordid)
+    - Please get me help about [responsible hosting](wordid)
+    - Please get me help about [news](wordid)
+    - Please get me help about [2021 winter](wordid)
+    - Please get me help about [what makes airbnb airbnb](wordid)
+    - Please get me help about [careers](wordid)
+    - Please get me help about [investors.airbnb.com](wordid)
+    - Please get me help about [luxury](wordid)
+    - Please get me help about [privacy_policy](wordid)
+    - Please get me help about [terms](wordid)
+    - Please get me help about [v2](wordid)
+    - Please get me help about [airbnb](wordid)
+    - Please get me help about [all the ways to host on airbnb](wordid)
+    - Please get me help about [creating a listing](wordid)
+    - Please get me help about [create a unique airbnb experience](wordid)
+    - Please get me help about [hosting airbnb adventures](wordid)
+    - Please get me help about [update the airbnb app](wordid)
+    - Please get me help about [contact info and feedback](wordid)
+    - Please get me help about the [basics](wordid)
+    - Please get me help about [safety](wordid)
+    - Please get me help about [privacy](wordid)
+    - Please get me help about [antidiscrimination and accessibility](wordid)
+    - Please get me help about [account authenticity](wordid)
+    - Please get me help about [content and reviews](wordid)
+    - Please get me help about [community expectations](wordid)
+    - Please get me help about [partner info](wordid)
+    - Please get me help about [animal welfare](wordid)
+    - Please get me help about [discovering the world of hosting 2](wordid)
 - synonym: '1'
   examples: |
     - First

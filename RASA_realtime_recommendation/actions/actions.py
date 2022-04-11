@@ -186,13 +186,12 @@ class ActionlistingsDetails_Neo4jColabFExclude(Action):
 		query = """
 							// Get top n recommendations for user from the selected neighbours
 							MATCH (u1:User),
-								(neighbour:User)-[:RATED]->(p:Listing)        // get all listings rated by neighbour
+								(neighbour:User)-[:RATED]->(p:Listing)       
 							WHERE u1.name = $uid
 							AND neighbour.id in $neighbours
-							AND not (u1)-[:RATED]->(p)                        // which u1 has not already bought
-							
-							WITH u1, p, COUNT(DISTINCT neighbour) as cnt                                // count times rated by neighbours
-							ORDER BY u1.name, cnt DESC                                               // and sort by count desc
+							AND not (u1)-[:RATED]->(p)    
+							WITH u1, p, COUNT(DISTINCT neighbour) as cnt                                
+							ORDER BY u1.name, cnt DESC                                               
 							RETURN u1.name as user, COLLECT([p.name,p.picture_url,p.accomodates,p.bathrooms,p.bedrooms,p.beds,p.host_identity_verified,p.review_scores_rating,p.price,cnt])[$k..$n] as recos  
 							"""
 
@@ -262,7 +261,8 @@ class ActionlistingsDetails_Neo4jCBF(Action):
 				MATCH (z)-[:HAS_AMENITY]->(zc:Amenity)
 				WITH s, z, s1, intersection, COLLECT(zc.name) AS s2
 				WITH s, z, intersection, s1+[x IN s2 WHERE NOT x IN s1] AS union, s1, s2
-				RETURN s.name as UserListing, z.name as Recommendate, z.picture_url as url, z.accomodates as accomodates,z.bathrooms as bathrooms,z.bedrooms as bedrooms,z.beds as beds,z.host_identity_verified as verified,z.review_scores_rating as review_scores,z.price as price,s1 as UserListingAmenities, s2 as RecommendateListingAmenities, ((1.0*intersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT $k;
+				RETURN s.name as UserListing, z.name as Recommendate, z.picture_url as url, 
+				z.accomodates as accomodates,z.bathrooms as bathrooms,z.bedrooms as bedrooms,z.beds as beds,z.host_identity_verified as verified,z.review_scores_rating as review_scores,z.price as price,s1 as UserListingAmenities, s2 as RecommendateListingAmenities, ((1.0*intersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT $k;
 				"""
 		listingss=[]
 		recoAmenity=[]
@@ -301,6 +301,49 @@ class ActionlistingsDetails_Neo4jCBF(Action):
 			print(image_list)
 			print(data)
 			dispatcher.utter_message(json_message=data)
+
+		return []
+
+
+### get FAQ help 
+class Action_FAQ(Action):
+	def name(self) -> Text:
+		return "action_FAQ"
+
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+		try:
+			prediction = tracker.latest_message['entities'][0]['value']
+		except:
+			prediction = "help"
+
+		if prediction:
+			#replace with dynamic value.
+			word=str(prediction)
+			word=word.lower()
+
+			query_string=""
+
+			query_string="MATCH (n:FAQ) WHERE "
+			query_string+=" n.name=~'(?i).*"+word.lower()+".*'"
+			query_string+=" RETURN n.link as url LIMIT "+str(topK)+";"
+				
+			query = ""+query_string+""
+			count=0
+			
+			dispatcher.utter_message(text='Please find the help links below:')
+
+			for row in g.run(query, query_string=query_string,k=topK):
+				dispatcher.utter_message(text=str(row['url']))
+				count+=1
+
+			if count==0:
+				dispatcher.utter_message(text="no great matches! Can you rephrase?")
+			
+		else:
+			dispatcher.utter_message(text="No help found. please reach out to customer care on call +1 (844) 234-2500")
 
 		return []
 

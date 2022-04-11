@@ -1,0 +1,41 @@
+,user_query,query_entity,domain,text
+0,"find me listings that match entity, kettle",kettle,https://www.airbnb.com/rooms/13929944,Hot water kettle
+1,"find me listings that match entity, heater",heater,https://www.airbnb.com/rooms/51790429,Portable heater
+2,"find me listings that match entity, pets",pets,https://www.airbnb.com/rooms/42431273,Pets allowed
+3,"find me listings that match entity, emergency",emergency,No matched listings,No matched listings
+4,"find me listings that match entity, first aid",first aid,https://www.airbnb.com/rooms/24402987,First aid kit
+5,"find me listings that match entity, cooktop",cooktop,No matched listings,No matched listings
+6,"find me listings that match entity, king bed",king bed,No matched listings,No matched listings
+7,"find me listings that match entity, laundry",laundry,https://www.airbnb.com/rooms/42430386,Laundry services
+8,"find me listings that match entity, clothing stores",clothing stores,No matched listings,No matched listings
+9,"find me listings that match entity, coffee machine",coffee machine,https://www.airbnb.com/rooms/6088524,Keurig coffee machine
+10,"find me listings that match entity, shopping area",shopping area,No matched listings,No matched listings
+11,"find me listings that match entity, birthday cake",birthday cake,No matched listings,No matched listings
+12,"find me listings that match entity, boutique shops",boutique shops,No matched listings,No matched listings
+13,"find me listings that match entity, toddler",toddler,No matched listings,No matched listings
+14,"find me listings that match entity, kitchen area",kitchen area,No matched listings,No matched listings
+15,"find me listings that match entity, sitting room",sitting room,No matched listings,No matched listings
+16,"find me listings that match entity, staircases",staircases,No matched listings,No matched listings
+17,"find me listings that match entity, refrigerator",refrigerator,https://www.airbnb.com/rooms/26974042,Refrigerator
+18,"find me listings that match entity, washer",washer,https://www.airbnb.com/rooms/847093,Paid washer – In unit
+19,"find me listings that match entity, crib",crib,https://www.airbnb.com/rooms/29435883,Pack ’n play/Travel crib
+20,"find me listings that match entity, dryer",dryer,https://www.airbnb.com/rooms/11903464,Hair dryer
+21,"find me listings that match entity, fireplace",fireplace,https://www.airbnb.com/rooms/52016670,Indoor fireplace
+22,"find me listings that match entity, hill view",hill view,No matched listings,No matched listings
+23,"find me listings that match entity, cabin",cabin,No matched listings,No matched listings
+24,"find me listings that match entity, safety",safety,https://www.airbnb.com/rooms/42482030,Baby safety gates
+25,"find me listings that match entity, privacy",privacy,No matched listings,No matched listings
+26,"find me listings that match entity, pool",pool,https://www.airbnb.com/rooms/1072171,whirlpool refrigerator
+27,"find me listings that match entity, indoor games",indoor games,No matched listings,No matched listings
+28,"find me listings that match entity, patio",patio,https://www.airbnb.com/rooms/52712134,Private patio or balcony
+29,"find me listings that match entity, parking",parking,https://www.airbnb.com/rooms/9402905,Paid parking off premises
+30,"find me listings that match entity, umbrellas",umbrellas,No matched listings,No matched listings
+31,"find me listings that match entity, toys",toys,https://www.airbnb.com/rooms/22819981,Children’s books and toys
+32,"find me listings that match entity, kids",kids,No matched listings,No matched listings
+33,"find me listings that match entity, sand pit",sand pit,No matched listings,No matched listings
+34,"find me listings that match entity, tram station",tram station,No matched listings,No matched listings
+35,"find me listings that match entity, buses",buses,No matched listings,No matched listings
+36,"find me listings that match entity, public transport",public transport,No matched listings,No matched listings
+37,"find me listings that match entity, drying clothes",drying clothes,No matched listings,No matched listings
+38,"find me listings that match entity, river view",river view,No matched listings,No matched listings
+39,"find me listings that match entity, flower arts",flower arts,No matched listings,No matched listings
